@@ -1,0 +1,43 @@
+builder.cc:extern int kv_ssd_enable_;
+builder.cc:      if (blob_creation_reason == BlobFileCreationReason::kFlush && (c_iter.value().size() >= 4096) && kv_ssd_enable_ == 4) {
+Binary file builder.o matches
+compaction/compaction_job.cc:  if (kv_ssd_->isCompactionEnable() && compact_->compaction->output_level() == kv_ssd_->getLastLevel() && kvssd_compaction_enable_ && (kv_ssd_enable_ == 3 || kv_ssd_enable_ == 4)) {
+compaction/compaction_job.cc:    if (c_iter->value().size() >= 4096 && (kv_ssd_enable_ == 1 || kv_ssd_enable_ == 2 || kv_ssd_enable_ == 3 || kv_ssd_enable_ == 4)) {
+Binary file compaction/.compaction_job.cc.swp matches
+Binary file compaction/compaction_job.o matches
+db_impl/db_impl_write.cc:    if (kv_ssd_enable_ != 3) return false;
+db_impl/db_impl_write.cc:  if (kv_ssd_enable_ == 4) {
+db_impl/db_impl_write.cc:  // if (kv_ssd_enable_ == 4) DU 
+Binary file db_impl/.db_impl.h.swp matches
+Binary file db_impl/db_impl.o matches
+db_impl/db_impl.h:extern int kv_ssd_enable_;
+db_impl/db_impl.cc:int kv_ssd_enable_ = 0;
+db_impl/db_impl.cc:      if (kv_ssd_ != nullptr && kv_index_ != nullptr && (kv_ssd_enable_ == 3 || kv_ssd_enable_ == 4)) {
+db_impl/db_impl.cc:  if (kv_ssd_->isCompactionEnable() && s == Status::NotFound() && (kv_ssd_enable_ == 3 || kv_ssd_enable_ == 4)) {
+Binary file db_impl/db_impl_write.o matches
+flush_job.cc:      if (kv_ssd_enable_ != 1) {
+flush_job.cc:    if (kv_ssd_ != nullptr && (kv_ssd_enable_ == 3 || kv_ssd_enable_ == 4)) {
+flush_job.cc:  if (kv_ssd_ != nullptr && (kv_ssd_enable_ == 3 || kv_ssd_enable_ == 4)) { 
+flush_job.cc:      if (kv_ssd_enable_ == 4) {
+Binary file flush_job.o matches
+Binary file kvssd/.kv_ssd.cc.swo matches
+kvssd/kv_ssd.cc:extern int kv_ssd_enable_;
+Binary file kvssd/.kv_ssd.cc.swp matches
+tags:kv_ssd_enable_	db_impl/db_impl.cc	/^int kv_ssd_enable_ = 0;$/;"	m	namespace:ROCKSDB_NAMESPACE	file:
+version_set.cc:  if ((kv_ssd_enable_ == 4 || kv_ssd_enable_ == 3) && kv_ssd_->isCompactionEnable()) {
+version_set.cc:        if (kv_ssd_->isCompactionEnable() && (kv_ssd_enable_ == 3 || kv_ssd_enable_ == 4) && fp.GetKVCheck()) {
+version_set.cc:  if (kv_ssd_ != nullptr && (kv_ssd_enable_ == 3 || kv_ssd_enable_ == 4)) {
+version_set.cc:  if (kv_ssd_enable_ == 3 || kv_ssd_enable_ == 4) {
+Binary file version_set.o matches
+write_batch.cc:        if (kv_ssd_enable_ == 3) {
+write_batch.cc:        //if (kv_ssd_enable_ == 3 || kv_ssd_enable_ == 4) {
+Binary file write_batch.o matches
+write_thread.cc:extern int kv_ssd_enable_;
+write_thread.cc:  if (kv_ssd_enable_ == 0) {
+write_thread.cc:  if (kv_ssd_enable_ == 4) {
+write_thread.cc:  } else if (WriteBatchInternal::ByteSize(leader->batch) >= 4096 && kv_ssd_enable_ == 3) {
+write_thread.cc:  } else if (kv_ssd_enable_ == 3) {
+write_thread.cc:    if (batch_size >= 4096 && kv_ssd_enable_ == 3) {
+write_thread.cc:    } else if (kv_ssd_enable_ == 3) {
+write_thread.cc:              if (kv_ssd_ != nullptr && (kv_ssd_enable_ == 1 || kv_ssd_enable_ == 2)) {
+Binary file write_thread.o matches

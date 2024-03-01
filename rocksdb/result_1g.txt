@@ -1,0 +1,990 @@
+/home2/du/temp/rocksdb/db_bench --db=/home2/du/mnt/db --num_levels=6 --bloom_locality=1 --bloom_bits=10 --memtablerep=skip_list --prefix_size=8 --key_size=8 --keys_per_prefix=0 --wal_dir=/home2/du/mnt/wal --threads=8 --value_size=1024 --benchmarks=trace_a,stats --num=8398 --compression_type=none --max_bytes_for_level_base=268435456 --open_files=100 --benchmark_write_rate_limit=40971520 --max_background_jobs=2 --YCSB_uniform_distribution=false --disable_wal=0 --histogram=true --max_write_buffer_number=2 --write_buffer_size=1073741824 --inplace_update_support=false --allow_concurrent_memtable_write=true --statistics=true --stats_interval_seconds=10 --compaction_pri=1 --max_bytes_for_level_multiplier=8
+Set seed to 1681656095652307 because --seed was 0
+Initializing RocksDB Options from the specified file
+Initializing RocksDB Options from command-line flags
+Integrated BlobDB: blob cache disabled
+Keys:       8 bytes each (+ 0 bytes user-defined timestamp)
+Values:     1024 bytes each (512 bytes after compression)
+Entries:    8398
+Prefix:    8 bytes
+Keys per prefix:    0
+RawSize:    8.3 MB (estimated)
+FileSize:   4.2 MB (estimated)
+Write rate: 40971520 bytes/second
+Read rate: 0 ops/second
+Compression: NoCompression
+Compression sampling rate: 0
+Memtablerep: SkipListFactory
+Perf Level: 1
+------------------------------------------------
+Reading trace
+Finished reading trace only 8398437
+DB path: [/home2/du/mnt/db]
+[   4] [1000:1] interval 89159 done 89159 ops_done 0 Timer 1 fill_done 0 warm_done 1 OPS : 89159.000000 
+[   6] [1000:1] interval 89162 done 89162 ops_done 0 Timer 1 fill_done 0 warm_done 1 OPS : 89162.000000 
+[   1] [1000:1] interval 89181 done 89181 ops_done 0 Timer 1 fill_done 0 warm_done 1 OPS : 89181.000000 
+[   7] [1000:1] interval 89190 done 89190 ops_done 0 Timer 1 fill_done 0 warm_done 1 OPS : 89190.000000 
+[   0] [1000:1] interval 89198 done 89198 ops_done 0 Timer 1 fill_done 0 warm_done 1 OPS : 89198.000000 
+[   2] [1000:1] interval 89216 done 89216 ops_done 0 Timer 1 fill_done 0 warm_done 1 OPS : 89216.000000 
+[   3] [1000:1] interval 89415 done 89415 ops_done 0 Timer 1 fill_done 0 warm_done 1 OPS : 89415.000000 
+[   5] [1000:1] interval 89471 done 89471 ops_done 0 Timer 1 fill_done 0 warm_done 1 OPS : 89471.000000 
+[   4] [1000:2] interval 87674 done 176833 ops_done 89159 Timer 2 fill_done 0 warm_done 1 OPS : 88416.500000 
+[   6] [1000:2] interval 87675 done 176837 ops_done 89162 Timer 2 fill_done 0 warm_done 1 OPS : 88418.500000 
+[   1] [1000:2] interval 87666 done 176847 ops_done 89181 Timer 2 fill_done 0 warm_done 1 OPS : 88423.500000 
+[   7] [1000:2] interval 87658 done 176848 ops_done 89190 Timer 2 fill_done 0 warm_done 1 OPS : 88424.000000 
+[   0] [1000:2] interval 87657 done 176855 ops_done 89198 Timer 2 fill_done 0 warm_done 1 OPS : 88427.500000 
+[   2] [1000:2] interval 87659 done 176875 ops_done 89216 Timer 2 fill_done 0 warm_done 1 OPS : 88437.500000 
+[   3] [1000:2] interval 87638 done 177053 ops_done 89415 Timer 2 fill_done 0 warm_done 1 OPS : 88526.500000 
+[   5] [1000:2] interval 87612 done 177083 ops_done 89471 Timer 2 fill_done 0 warm_done 1 OPS : 88541.500000 
+[   4] [1000:3] interval 72045 done 248878 ops_done 176833 Timer 3 fill_done 0 warm_done 1 OPS : 82959.335938 
+[   6] [1000:3] interval 72051 done 248888 ops_done 176837 Timer 3 fill_done 0 warm_done 1 OPS : 82962.664062 
+[   1] [1000:3] interval 72053 done 248900 ops_done 176847 Timer 3 fill_done 0 warm_done 1 OPS : 82966.664062 
+[   7] [1000:3] interval 72054 done 248902 ops_done 176848 Timer 3 fill_done 0 warm_done 1 OPS : 82967.335938 
+[   0] [1000:3] interval 72059 done 248914 ops_done 176855 Timer 3 fill_done 0 warm_done 1 OPS : 82971.335938 
+[   2] [1000:3] interval 72056 done 248931 ops_done 176875 Timer 3 fill_done 0 warm_done 1 OPS : 82977.000000 
+[   3] [1000:3] interval 72057 done 249110 ops_done 177053 Timer 3 fill_done 0 warm_done 1 OPS : 83036.664062 
+[   5] [1000:3] interval 72088 done 249171 ops_done 177083 Timer 3 fill_done 0 warm_done 1 OPS : 83057.000000 
+[   4] [1000:4] interval 79254 done 328132 ops_done 248878 Timer 4 fill_done 0 warm_done 1 OPS : 82033.000000 
+[   6] [1000:4] interval 79248 done 328136 ops_done 248888 Timer 4 fill_done 0 warm_done 1 OPS : 82034.000000 
+[   1] [1000:4] interval 79256 done 328156 ops_done 248900 Timer 4 fill_done 0 warm_done 1 OPS : 82039.000000 
+[   7] [1000:4] interval 79262 done 328164 ops_done 248902 Timer 4 fill_done 0 warm_done 1 OPS : 82041.000000 
+[   0] [1000:4] interval 79264 done 328178 ops_done 248914 Timer 4 fill_done 0 warm_done 1 OPS : 82044.500000 
+[   2] [1000:4] interval 79256 done 328187 ops_done 248931 Timer 4 fill_done 0 warm_done 1 OPS : 82046.750000 
+[   3] [1000:4] interval 79286 done 328396 ops_done 249110 Timer 4 fill_done 0 warm_done 1 OPS : 82099.000000 
+[   5] [1000:4] interval 79248 done 328419 ops_done 249171 Timer 4 fill_done 0 warm_done 1 OPS : 82104.750000 
+[   2] [1000:5] interval 81960 done 410147 ops_done 328187 Timer 5 fill_done 0 warm_done 1 OPS : 82029.398438 
+[   1] [1000:5] interval 81991 done 410147 ops_done 328156 Timer 5 fill_done 0 warm_done 1 OPS : 82029.398438 
+[   6] [1000:5] interval 82011 done 410147 ops_done 328136 Timer 5 fill_done 0 warm_done 1 OPS : 82029.398438 
+[   3] [1000:5] interval 81751 done 410147 ops_done 328396 Timer 5 fill_done 0 warm_done 1 OPS : 82029.398438 
+[   5] [1000:5] interval 81728 done 410147 ops_done 328419 Timer 5 fill_done 0 warm_done 1 OPS : 82029.398438 
+[   4] [1000:5] interval 81984 done 410116 ops_done 328132 Timer 5 fill_done 0 warm_done 1 OPS : 82023.203125 
+[   0] [1000:5] interval 81969 done 410147 ops_done 328178 Timer 5 fill_done 0 warm_done 1 OPS : 82029.398438 
+[   7] [1000:5] interval 81982 done 410146 ops_done 328164 Timer 5 fill_done 0 warm_done 1 OPS : 82029.203125 
+[   4] [1000:6] interval 80345 done 490461 ops_done 410116 Timer 6 fill_done 0 warm_done 1 OPS : 81743.500000 
+[   6] [1000:6] interval 80317 done 490464 ops_done 410147 Timer 6 fill_done 0 warm_done 1 OPS : 81744.000000 
+[   1] [1000:6] interval 80334 done 490481 ops_done 410147 Timer 6 fill_done 0 warm_done 1 OPS : 81746.835938 
+[   7] [1000:6] interval 80342 done 490488 ops_done 410146 Timer 6 fill_done 0 warm_done 1 OPS : 81748.000000 
+[   0] [1000:6] interval 80353 done 490500 ops_done 410147 Timer 6 fill_done 0 warm_done 1 OPS : 81750.000000 
+[   2] [1000:6] interval 80362 done 490509 ops_done 410147 Timer 6 fill_done 0 warm_done 1 OPS : 81751.500000 
+[   3] [1000:6] interval 80560 done 490707 ops_done 410147 Timer 6 fill_done 0 warm_done 1 OPS : 81784.500000 
+[   5] [1000:6] interval 80605 done 490752 ops_done 410147 Timer 6 fill_done 0 warm_done 1 OPS : 81792.000000 
+[   1] [1000:7] interval 67792 done 558273 ops_done 490481 Timer 7 fill_done 0 warm_done 1 OPS : 79753.289062 
+[   2] [1000:7] interval 67764 done 558273 ops_done 490509 Timer 7 fill_done 0 warm_done 1 OPS : 79753.289062 
+[   4] [1000:7] interval 67816 done 558277 ops_done 490461 Timer 7 fill_done 0 warm_done 1 OPS : 79753.859375 
+[   3] [1000:7] interval 67566 done 558273 ops_done 490707 Timer 7 fill_done 0 warm_done 1 OPS : 79753.289062 
+[   5] [1000:7] interval 67521 done 558273 ops_done 490752 Timer 7 fill_done 0 warm_done 1 OPS : 79753.289062 
+[   0] [1000:7] interval 67774 done 558274 ops_done 490500 Timer 7 fill_done 0 warm_done 1 OPS : 79753.429688 
+[   6] [1000:7] interval 67807 done 558271 ops_done 490464 Timer 7 fill_done 0 warm_done 1 OPS : 79753.000000 
+[   7] [1000:7] interval 67785 done 558273 ops_done 490488 Timer 7 fill_done 0 warm_done 1 OPS : 79753.289062 
+[   4] [1000:8] interval 80956 done 639233 ops_done 558277 Timer 8 fill_done 0 warm_done 1 OPS : 79904.125000 
+[   6] [1000:8] interval 80963 done 639234 ops_done 558271 Timer 8 fill_done 0 warm_done 1 OPS : 79904.250000 
+[   1] [1000:8] interval 80968 done 639241 ops_done 558273 Timer 8 fill_done 0 warm_done 1 OPS : 79905.125000 
+[   7] [1000:8] interval 80968 done 639241 ops_done 558273 Timer 8 fill_done 0 warm_done 1 OPS : 79905.125000 
+[   0] [1000:8] interval 80985 done 639259 ops_done 558274 Timer 8 fill_done 0 warm_done 1 OPS : 79907.375000 
+[   2] [1000:8] interval 81006 done 639279 ops_done 558273 Timer 8 fill_done 0 warm_done 1 OPS : 79909.875000 
+[   3] [1000:8] interval 81176 done 639449 ops_done 558273 Timer 8 fill_done 0 warm_done 1 OPS : 79931.125000 
+[   5] [1000:8] interval 81225 done 639498 ops_done 558273 Timer 8 fill_done 0 warm_done 1 OPS : 79937.250000 
+[   3] [1000:9] interval 31158 done 670607 ops_done 639449 Timer 9 fill_done 0 warm_done 1 OPS : 74511.890625 
+[   1] [1000:9] interval 31366 done 670607 ops_done 639241 Timer 9 fill_done 0 warm_done 1 OPS : 74511.890625 
+[   2] [1000:9] interval 31328 done 670607 ops_done 639279 Timer 9 fill_done 0 warm_done 1 OPS : 74511.890625 
+[   0] [1000:9] interval 31265 done 670524 ops_done 639259 Timer 9 fill_done 0 warm_done 1 OPS : 74502.664062 
+[   7] [1000:9] interval 31364 done 670605 ops_done 639241 Timer 9 fill_done 0 warm_done 1 OPS : 74511.664062 
+[   4] [1000:9] interval 31291 done 670524 ops_done 639233 Timer 9 fill_done 0 warm_done 1 OPS : 74502.664062 
+[   5] [1000:9] interval 31106 done 670604 ops_done 639498 Timer 9 fill_done 0 warm_done 1 OPS : 74511.554688 
+[   6] [1000:9] interval 31370 done 670604 ops_done 639234 Timer 9 fill_done 0 warm_done 1 OPS : 74511.554688 
+[   4] [1000:10] interval 57822 done 728346 ops_done 670524 Timer 10 fill_done 0 warm_done 1 OPS : 72834.601562 
+[   6] [1000:10] interval 57751 done 728355 ops_done 670604 Timer 10 fill_done 0 warm_done 1 OPS : 72835.500000 
+[   1] [1000:10] interval 57763 done 728370 ops_done 670607 Timer 10 fill_done 0 warm_done 1 OPS : 72837.000000 
+[   7] [1000:10] interval 57769 done 728374 ops_done 670605 Timer 10 fill_done 0 warm_done 1 OPS : 72837.398438 
+[   0] [1000:10] interval 57849 done 728373 ops_done 670524 Timer 10 fill_done 0 warm_done 1 OPS : 72837.296875 
+[   2] [1000:10] interval 57778 done 728385 ops_done 670607 Timer 10 fill_done 0 warm_done 1 OPS : 72838.500000 
+[   3] [1000:10] interval 58004 done 728611 ops_done 670607 Timer 10 fill_done 0 warm_done 1 OPS : 72861.101562 
+[   5] [1000:10] interval 58049 done 728653 ops_done 670604 Timer 10 fill_done 0 warm_done 1 OPS : 72865.296875 
+[   4] [1000:11] interval 81328 done 809674 ops_done 728346 Timer 11 fill_done 0 warm_done 1 OPS : 73606.726562 
+[   6] [1000:11] interval 81324 done 809679 ops_done 728355 Timer 11 fill_done 0 warm_done 1 OPS : 73607.179688 
+[   1] [1000:11] interval 81316 done 809686 ops_done 728370 Timer 11 fill_done 0 warm_done 1 OPS : 73607.820312 
+[   7] [1000:11] interval 81321 done 809695 ops_done 728374 Timer 11 fill_done 0 warm_done 1 OPS : 73608.632812 
+[   0] [1000:11] interval 81332 done 809705 ops_done 728373 Timer 11 fill_done 0 warm_done 1 OPS : 73609.546875 
+[   2] [1000:11] interval 81139 done 809524 ops_done 728385 Timer 11 fill_done 0 warm_done 1 OPS : 73593.093750 
+[   3] [1000:11] interval 81295 done 809906 ops_done 728611 Timer 11 fill_done 0 warm_done 1 OPS : 73627.820312 
+[   5] [1000:11] interval 81298 done 809951 ops_done 728653 Timer 11 fill_done 0 warm_done 1 OPS : 73631.906250 
+[   4] [1000:12] interval 76599 done 886273 ops_done 809674 Timer 12 fill_done 0 warm_done 1 OPS : 73856.085938 
+[   6] [1000:12] interval 76602 done 886281 ops_done 809679 Timer 12 fill_done 0 warm_done 1 OPS : 73856.750000 
+[   1] [1000:12] interval 76604 done 886290 ops_done 809686 Timer 12 fill_done 0 warm_done 1 OPS : 73857.500000 
+[   7] [1000:12] interval 76601 done 886296 ops_done 809695 Timer 12 fill_done 0 warm_done 1 OPS : 73858.000000 
+[   0] [1000:12] interval 76608 done 886313 ops_done 809705 Timer 12 fill_done 0 warm_done 1 OPS : 73859.414062 
+[   2] [1000:12] interval 76801 done 886325 ops_done 809524 Timer 12 fill_done 0 warm_done 1 OPS : 73860.414062 
+[   3] [1000:12] interval 76585 done 886491 ops_done 809906 Timer 12 fill_done 0 warm_done 1 OPS : 73874.250000 
+[   5] [1000:12] interval 76581 done 886532 ops_done 809951 Timer 12 fill_done 0 warm_done 1 OPS : 73877.664062 
+[   4] [1000:13] interval 77219 done 963492 ops_done 886273 Timer 13 fill_done 0 warm_done 1 OPS : 74114.765625 
+[   6] [1000:13] interval 77203 done 963484 ops_done 886281 Timer 13 fill_done 0 warm_done 1 OPS : 74114.156250 
+[   1] [1000:13] interval 77206 done 963496 ops_done 886290 Timer 13 fill_done 0 warm_done 1 OPS : 74115.078125 
+[   7] [1000:13] interval 77111 done 963407 ops_done 886296 Timer 13 fill_done 0 warm_done 1 OPS : 74108.234375 
+[   0] [1000:13] interval 77199 done 963512 ops_done 886313 Timer 13 fill_done 0 warm_done 1 OPS : 74116.304688 
+[   2] [1000:13] interval 77188 done 963513 ops_done 886325 Timer 13 fill_done 0 warm_done 1 OPS : 74116.382812 
+[   3] [1000:13] interval 77129 done 963620 ops_done 886491 Timer 13 fill_done 0 warm_done 1 OPS : 74124.617188 
+[   5] [1000:13] interval 77106 done 963638 ops_done 886532 Timer 13 fill_done 0 warm_done 1 OPS : 74126.000000 
+[   4] [1000:14] interval 63728 done 1027220 ops_done 963492 Timer 14 fill_done 0 warm_done 1 OPS : 73372.859375 
+[   6] [1000:14] interval 63745 done 1027229 ops_done 963484 Timer 14 fill_done 0 warm_done 1 OPS : 73373.500000 
+[   1] [1000:14] interval 63745 done 1027241 ops_done 963496 Timer 14 fill_done 0 warm_done 1 OPS : 73374.359375 
+[   7] [1000:14] interval 63838 done 1027245 ops_done 963407 Timer 14 fill_done 0 warm_done 1 OPS : 73374.640625 
+[   0] [1000:14] interval 63745 done 1027257 ops_done 963512 Timer 14 fill_done 0 warm_done 1 OPS : 73375.500000 
+[   2] [1000:14] interval 63757 done 1027270 ops_done 963513 Timer 14 fill_done 0 warm_done 1 OPS : 73376.429688 
+[   3] [1000:14] interval 63840 done 1027460 ops_done 963620 Timer 14 fill_done 0 warm_done 1 OPS : 73390.000000 
+[   5] [1000:14] interval 63865 done 1027503 ops_done 963638 Timer 14 fill_done 0 warm_done 1 OPS : 73393.070312 
+[   4] [1000:15] interval 76092 done 1103312 ops_done 1027220 Timer 15 fill_done 0 warm_done 1 OPS : 73554.132812 
+[   6] [1000:15] interval 76085 done 1103314 ops_done 1027229 Timer 15 fill_done 0 warm_done 1 OPS : 73554.265625 
+[   1] [1000:15] interval 76089 done 1103330 ops_done 1027241 Timer 15 fill_done 0 warm_done 1 OPS : 73555.335938 
+[   7] [1000:15] interval 75793 done 1103038 ops_done 1027245 Timer 15 fill_done 0 warm_done 1 OPS : 73535.867188 
+[   0] [1000:15] interval 76090 done 1103347 ops_done 1027257 Timer 15 fill_done 0 warm_done 1 OPS : 73556.468750 
+[   2] [1000:15] interval 76091 done 1103361 ops_done 1027270 Timer 15 fill_done 0 warm_done 1 OPS : 73557.398438 
+[   3] [1000:15] interval 76082 done 1103542 ops_done 1027460 Timer 15 fill_done 0 warm_done 1 OPS : 73569.468750 
+[   5] [1000:15] interval 75782 done 1103285 ops_done 1027503 Timer 15 fill_done 0 warm_done 1 OPS : 73552.335938 
+[   4] [1000:16] interval 77895 done 1181207 ops_done 1103312 Timer 16 fill_done 0 warm_done 1 OPS : 73825.437500 
+[   6] [1000:16] interval 77894 done 1181208 ops_done 1103314 Timer 16 fill_done 0 warm_done 1 OPS : 73825.500000 
+[   1] [1000:16] interval 77892 done 1181222 ops_done 1103330 Timer 16 fill_done 0 warm_done 1 OPS : 73826.375000 
+[   7] [1000:16] interval 78186 done 1181224 ops_done 1103038 Timer 16 fill_done 0 warm_done 1 OPS : 73826.500000 
+[   0] [1000:16] interval 77888 done 1181235 ops_done 1103347 Timer 16 fill_done 0 warm_done 1 OPS : 73827.187500 
+[   2] [1000:16] interval 77888 done 1181249 ops_done 1103361 Timer 16 fill_done 0 warm_done 1 OPS : 73828.062500 
+[   3] [1000:16] interval 77911 done 1181453 ops_done 1103542 Timer 16 fill_done 0 warm_done 1 OPS : 73840.812500 
+[   5] [1000:16] interval 78207 done 1181492 ops_done 1103285 Timer 16 fill_done 0 warm_done 1 OPS : 73843.250000 
+[   4] [1000:17] interval 73519 done 1254726 ops_done 1181207 Timer 17 fill_done 0 warm_done 1 OPS : 73807.414062 
+[   6] [1000:17] interval 73525 done 1254733 ops_done 1181208 Timer 17 fill_done 0 warm_done 1 OPS : 73807.820312 
+[   1] [1000:17] interval 73525 done 1254747 ops_done 1181222 Timer 17 fill_done 0 warm_done 1 OPS : 73808.648438 
+[   7] [1000:17] interval 73528 done 1254752 ops_done 1181224 Timer 17 fill_done 0 warm_done 1 OPS : 73808.937500 
+[   0] [1000:17] interval 73523 done 1254758 ops_done 1181235 Timer 17 fill_done 0 warm_done 1 OPS : 73809.296875 
+[   2] [1000:17] interval 73518 done 1254767 ops_done 1181249 Timer 17 fill_done 0 warm_done 1 OPS : 73809.820312 
+[   3] [1000:17] interval 73458 done 1254911 ops_done 1181453 Timer 17 fill_done 0 warm_done 1 OPS : 73818.296875 
+[   5] [1000:17] interval 73471 done 1254963 ops_done 1181492 Timer 17 fill_done 0 warm_done 1 OPS : 73821.351562 
+[   4] [1000:18] interval 77597 done 1332323 ops_done 1254726 Timer 18 fill_done 0 warm_done 1 OPS : 74017.945312 
+[   6] [1000:18] interval 77597 done 1332330 ops_done 1254733 Timer 18 fill_done 0 warm_done 1 OPS : 74018.335938 
+[   1] [1000:18] interval 77596 done 1332343 ops_done 1254747 Timer 18 fill_done 0 warm_done 1 OPS : 74019.054688 
+[   7] [1000:18] interval 77592 done 1332344 ops_done 1254752 Timer 18 fill_done 0 warm_done 1 OPS : 74019.109375 
+[   0] [1000:18] interval 77596 done 1332354 ops_done 1254758 Timer 18 fill_done 0 warm_done 1 OPS : 74019.664062 
+[   2] [1000:18] interval 77595 done 1332362 ops_done 1254767 Timer 18 fill_done 0 warm_done 1 OPS : 74020.109375 
+[   3] [1000:18] interval 77635 done 1332546 ops_done 1254911 Timer 18 fill_done 0 warm_done 1 OPS : 74030.335938 
+[   5] [1000:18] interval 77623 done 1332586 ops_done 1254963 Timer 18 fill_done 0 warm_done 1 OPS : 74032.554688 
+[   4] [1000:19] interval 74081 done 1406404 ops_done 1332323 Timer 19 fill_done 0 warm_done 1 OPS : 74021.265625 
+[   6] [1000:19] interval 74388 done 1406718 ops_done 1332330 Timer 19 fill_done 0 warm_done 1 OPS : 74037.789062 
+[   1] [1000:19] interval 74444 done 1406787 ops_done 1332343 Timer 19 fill_done 0 warm_done 1 OPS : 74041.421875 
+[   7] [1000:19] interval 74266 done 1406610 ops_done 1332344 Timer 19 fill_done 0 warm_done 1 OPS : 74032.101562 
+[   0] [1000:19] interval 74446 done 1406800 ops_done 1332354 Timer 19 fill_done 0 warm_done 1 OPS : 74042.101562 
+[   2] [1000:19] interval 74266 done 1406628 ops_done 1332362 Timer 19 fill_done 0 warm_done 1 OPS : 74033.054688 
+[   3] [1000:19] interval 74324 done 1406870 ops_done 1332546 Timer 19 fill_done 0 warm_done 1 OPS : 74045.789062 
+[   5] [1000:19] interval 74313 done 1406899 ops_done 1332586 Timer 19 fill_done 0 warm_done 1 OPS : 74047.312500 
+[   4] [1000:20] interval 76155 done 1482559 ops_done 1406404 Timer 20 fill_done 0 warm_done 1 OPS : 74127.953125 
+[   6] [1000:20] interval 75848 done 1482566 ops_done 1406718 Timer 20 fill_done 0 warm_done 1 OPS : 74128.296875 
+[   1] [1000:20] interval 75792 done 1482579 ops_done 1406787 Timer 20 fill_done 0 warm_done 1 OPS : 74128.953125 
+[   7] [1000:20] interval 75973 done 1482583 ops_done 1406610 Timer 20 fill_done 0 warm_done 1 OPS : 74129.148438 
+[   0] [1000:20] interval 75799 done 1482599 ops_done 1406800 Timer 20 fill_done 0 warm_done 1 OPS : 74129.953125 
+[   2] [1000:20] interval 75989 done 1482617 ops_done 1406628 Timer 20 fill_done 0 warm_done 1 OPS : 74130.851562 
+[   3] [1000:20] interval 75939 done 1482809 ops_done 1406870 Timer 20 fill_done 0 warm_done 1 OPS : 74140.453125 
+[   5] [1000:20] interval 75947 done 1482846 ops_done 1406899 Timer 20 fill_done 0 warm_done 1 OPS : 74142.296875 
+[   6] [1000:21] interval 21495 done 1504061 ops_done 1482566 Timer 21 fill_done 0 warm_done 1 OPS : 71621.953125 
+[   2] [1000:21] interval 21439 done 1504056 ops_done 1482617 Timer 21 fill_done 0 warm_done 1 OPS : 71621.710938 
+[   4] [1000:21] interval 21500 done 1504059 ops_done 1482559 Timer 21 fill_done 0 warm_done 1 OPS : 71621.859375 
+[   3] [1000:21] interval 21247 done 1504056 ops_done 1482809 Timer 21 fill_done 0 warm_done 1 OPS : 71621.710938 
+[   7] [1000:21] interval 21476 done 1504059 ops_done 1482583 Timer 21 fill_done 0 warm_done 1 OPS : 71621.859375 
+[   5] [1000:21] interval 21215 done 1504061 ops_done 1482846 Timer 21 fill_done 0 warm_done 1 OPS : 71621.953125 
+[   1] [1000:21] interval 21483 done 1504062 ops_done 1482579 Timer 21 fill_done 0 warm_done 1 OPS : 71622.000000 
+[   0] [1000:21] interval 21462 done 1504061 ops_done 1482599 Timer 21 fill_done 0 warm_done 1 OPS : 71621.953125 
+[   4] [1000:22] interval 28191 done 1532250 ops_done 1504059 Timer 22 fill_done 0 warm_done 1 OPS : 69647.726562 
+[   6] [1000:22] interval 28195 done 1532256 ops_done 1504061 Timer 22 fill_done 0 warm_done 1 OPS : 69648.000000 
+[   1] [1000:22] interval 28208 done 1532270 ops_done 1504062 Timer 22 fill_done 0 warm_done 1 OPS : 69648.632812 
+[   7] [1000:22] interval 28212 done 1532271 ops_done 1504059 Timer 22 fill_done 0 warm_done 1 OPS : 69648.679688 
+[   0] [1000:22] interval 28228 done 1532289 ops_done 1504061 Timer 22 fill_done 0 warm_done 1 OPS : 69649.500000 
+[   2] [1000:22] interval 28244 done 1532300 ops_done 1504056 Timer 22 fill_done 0 warm_done 1 OPS : 69650.000000 
+[   3] [1000:22] interval 28413 done 1532469 ops_done 1504056 Timer 22 fill_done 0 warm_done 1 OPS : 69657.679688 
+[   5] [1000:22] interval 28445 done 1532506 ops_done 1504061 Timer 22 fill_done 0 warm_done 1 OPS : 69659.367188 
+[   0] [1000:24] interval 31297 done 1563586 ops_done 1532289 Timer 24 fill_done 0 warm_done 1 OPS : 65149.417969 
+[   6] [1000:24] interval 31330 done 1563586 ops_done 1532256 Timer 24 fill_done 0 warm_done 1 OPS : 65149.417969 
+[   1] [1000:24] interval 31316 done 1563586 ops_done 1532270 Timer 24 fill_done 0 warm_done 1 OPS : 65149.417969 
+[   3] [1000:24] interval 31119 done 1563588 ops_done 1532469 Timer 24 fill_done 0 warm_done 1 OPS : 65149.500000 
+[   2] [1000:24] interval 31288 done 1563588 ops_done 1532300 Timer 24 fill_done 0 warm_done 1 OPS : 65149.500000 
+[   4] [1000:24] interval 31336 done 1563586 ops_done 1532250 Timer 24 fill_done 0 warm_done 1 OPS : 65149.417969 
+[   5] [1000:24] interval 31082 done 1563588 ops_done 1532506 Timer 24 fill_done 0 warm_done 1 OPS : 65149.500000 
+[   7] [1000:24] interval 31313 done 1563584 ops_done 1532271 Timer 24 fill_done 0 warm_done 1 OPS : 65149.332031 
+[   4] [1000:25] interval 51827 done 1615413 ops_done 1563586 Timer 25 fill_done 0 warm_done 1 OPS : 64616.519531 
+[   6] [1000:25] interval 51841 done 1615427 ops_done 1563586 Timer 25 fill_done 0 warm_done 1 OPS : 64617.078125 
+[   1] [1000:25] interval 51857 done 1615443 ops_done 1563586 Timer 25 fill_done 0 warm_done 1 OPS : 64617.718750 
+[   7] [1000:25] interval 51864 done 1615448 ops_done 1563584 Timer 25 fill_done 0 warm_done 1 OPS : 64617.921875 
+[   0] [1000:25] interval 51887 done 1615473 ops_done 1563586 Timer 25 fill_done 0 warm_done 1 OPS : 64618.921875 
+[   2] [1000:25] interval 51902 done 1615490 ops_done 1563588 Timer 25 fill_done 0 warm_done 1 OPS : 64619.601562 
+[   3] [1000:25] interval 52089 done 1615677 ops_done 1563588 Timer 25 fill_done 0 warm_done 1 OPS : 64627.078125 
+[   5] [1000:25] interval 52125 done 1615713 ops_done 1563588 Timer 25 fill_done 0 warm_done 1 OPS : 64628.519531 
+[   7] [1000:26] interval 66416 done 1681864 ops_done 1615448 Timer 26 fill_done 0 warm_done 1 OPS : 64687.078125 
+[   0] [1000:26] interval 66570 done 1682043 ops_done 1615473 Timer 26 fill_done 0 warm_done 1 OPS : 64693.960938 
+[   1] [1000:26] interval 66600 done 1682043 ops_done 1615443 Timer 26 fill_done 0 warm_done 1 OPS : 64693.960938 
+[   5] [1000:26] interval 66330 done 1682043 ops_done 1615713 Timer 26 fill_done 0 warm_done 1 OPS : 64693.960938 
+[   6] [1000:26] interval 66616 done 1682043 ops_done 1615427 Timer 26 fill_done 0 warm_done 1 OPS : 64693.960938 
+[   3] [1000:26] interval 66366 done 1682043 ops_done 1615677 Timer 26 fill_done 0 warm_done 1 OPS : 64693.960938 
+[   4] [1000:26] interval 66628 done 1682041 ops_done 1615413 Timer 26 fill_done 0 warm_done 1 OPS : 64693.882812 
+[   2] [1000:26] interval 66553 done 1682043 ops_done 1615490 Timer 26 fill_done 0 warm_done 1 OPS : 64693.960938 
+[   4] [1000:27] interval 71061 done 1753102 ops_done 1682041 Timer 27 fill_done 0 warm_done 1 OPS : 64929.703125 
+[   6] [1000:27] interval 71069 done 1753112 ops_done 1682043 Timer 27 fill_done 0 warm_done 1 OPS : 64930.074219 
+[   1] [1000:27] interval 71144 done 1753187 ops_done 1682043 Timer 27 fill_done 0 warm_done 1 OPS : 64932.851562 
+[   7] [1000:27] interval 71677 done 1753541 ops_done 1681864 Timer 27 fill_done 0 warm_done 1 OPS : 64945.964844 
+[   0] [1000:27] interval 71510 done 1753553 ops_done 1682043 Timer 27 fill_done 0 warm_done 1 OPS : 64946.406250 
+[   2] [1000:27] interval 71527 done 1753570 ops_done 1682043 Timer 27 fill_done 0 warm_done 1 OPS : 64947.035156 
+[   3] [1000:27] interval 71702 done 1753745 ops_done 1682043 Timer 27 fill_done 0 warm_done 1 OPS : 64953.519531 
+[   5] [1000:27] interval 71403 done 1753446 ops_done 1682043 Timer 27 fill_done 0 warm_done 1 OPS : 64942.445312 
+[   4] [1000:28] interval 52191 done 1805293 ops_done 1753102 Timer 28 fill_done 0 warm_done 1 OPS : 64474.750000 
+[   6] [1000:28] interval 52185 done 1805297 ops_done 1753112 Timer 28 fill_done 0 warm_done 1 OPS : 64474.894531 
+[   1] [1000:28] interval 52131 done 1805318 ops_done 1753187 Timer 28 fill_done 0 warm_done 1 OPS : 64475.644531 
+[   7] [1000:28] interval 52787 done 1806328 ops_done 1753541 Timer 28 fill_done 0 warm_done 1 OPS : 64511.714844 
+[   0] [1000:28] interval 52792 done 1806345 ops_done 1753553 Timer 28 fill_done 0 warm_done 1 OPS : 64512.320312 
+[   2] [1000:28] interval 52789 done 1806359 ops_done 1753570 Timer 28 fill_done 0 warm_done 1 OPS : 64512.820312 
+[   3] [1000:28] interval 52809 done 1806554 ops_done 1753745 Timer 28 fill_done 0 warm_done 1 OPS : 64519.785156 
+[   5] [1000:28] interval 52165 done 1805611 ops_done 1753446 Timer 28 fill_done 0 warm_done 1 OPS : 64486.105469 
+[   4] [1000:29] interval 64782 done 1870075 ops_done 1805293 Timer 29 fill_done 0 warm_done 1 OPS : 64485.343750 
+[   6] [1000:29] interval 64791 done 1870088 ops_done 1805297 Timer 29 fill_done 0 warm_done 1 OPS : 64485.792969 
+[   1] [1000:29] interval 64788 done 1870106 ops_done 1805318 Timer 29 fill_done 0 warm_done 1 OPS : 64486.414062 
+[   7] [1000:29] interval 63782 done 1870110 ops_done 1806328 Timer 29 fill_done 0 warm_done 1 OPS : 64486.550781 
+[   0] [1000:29] interval 63783 done 1870128 ops_done 1806345 Timer 29 fill_done 0 warm_done 1 OPS : 64487.171875 
+[   2] [1000:29] interval 63782 done 1870141 ops_done 1806359 Timer 29 fill_done 0 warm_done 1 OPS : 64487.621094 
+[   3] [1000:29] interval 63761 done 1870315 ops_done 1806554 Timer 29 fill_done 0 warm_done 1 OPS : 64493.621094 
+[   5] [1000:29] interval 64750 done 1870361 ops_done 1805611 Timer 29 fill_done 0 warm_done 1 OPS : 64495.207031 
+[   4] [1000:30] interval 49537 done 1919612 ops_done 1870075 Timer 30 fill_done 0 warm_done 1 OPS : 63987.066406 
+[   6] [1000:30] interval 49531 done 1919619 ops_done 1870088 Timer 30 fill_done 0 warm_done 1 OPS : 63987.300781 
+[   1] [1000:30] interval 49523 done 1919629 ops_done 1870106 Timer 30 fill_done 0 warm_done 1 OPS : 63987.632812 
+[   7] [1000:30] interval 49524 done 1919634 ops_done 1870110 Timer 30 fill_done 0 warm_done 1 OPS : 63987.800781 
+[   0] [1000:30] interval 49519 done 1919647 ops_done 1870128 Timer 30 fill_done 0 warm_done 1 OPS : 63988.234375 
+[   2] [1000:30] interval 49523 done 1919664 ops_done 1870141 Timer 30 fill_done 0 warm_done 1 OPS : 63988.800781 
+[   3] [1000:30] interval 49501 done 1919816 ops_done 1870315 Timer 30 fill_done 0 warm_done 1 OPS : 63993.867188 
+[   5] [1000:30] interval 49495 done 1919856 ops_done 1870361 Timer 30 fill_done 0 warm_done 1 OPS : 63995.199219 
+[   4] [1000:31] interval 72995 done 1992607 ops_done 1919612 Timer 31 fill_done 0 warm_done 1 OPS : 64277.644531 
+[   6] [1000:31] interval 72971 done 1992590 ops_done 1919619 Timer 31 fill_done 0 warm_done 1 OPS : 64277.097656 
+[   1] [1000:31] interval 72982 done 1992611 ops_done 1919629 Timer 31 fill_done 0 warm_done 1 OPS : 64277.773438 
+[   7] [1000:31] interval 72963 done 1992597 ops_done 1919634 Timer 31 fill_done 0 warm_done 1 OPS : 64277.324219 
+[   0] [1000:31] interval 72979 done 1992626 ops_done 1919647 Timer 31 fill_done 0 warm_done 1 OPS : 64278.257812 
+[   2] [1000:31] interval 73046 done 1992710 ops_done 1919664 Timer 31 fill_done 0 warm_done 1 OPS : 64280.968750 
+[   3] [1000:31] interval 73022 done 1992838 ops_done 1919816 Timer 31 fill_done 0 warm_done 1 OPS : 64285.097656 
+[   5] [1000:31] interval 72916 done 1992772 ops_done 1919856 Timer 31 fill_done 0 warm_done 1 OPS : 64282.968750 
+[   4] [1000:32] interval 69065 done 2061672 ops_done 1992607 Timer 32 fill_done 0 warm_done 1 OPS : 64427.250000 
+[   6] [1000:32] interval 69086 done 2061676 ops_done 1992590 Timer 32 fill_done 0 warm_done 1 OPS : 64427.375000 
+[   1] [1000:32] interval 69080 done 2061691 ops_done 1992611 Timer 32 fill_done 0 warm_done 1 OPS : 64427.843750 
+[   7] [1000:32] interval 69099 done 2061696 ops_done 1992597 Timer 32 fill_done 0 warm_done 1 OPS : 64428.000000 
+[   0] [1000:32] interval 69086 done 2061712 ops_done 1992626 Timer 32 fill_done 0 warm_done 1 OPS : 64428.500000 
+[   2] [1000:32] interval 69009 done 2061719 ops_done 1992710 Timer 32 fill_done 0 warm_done 1 OPS : 64428.718750 
+[   3] [1000:32] interval 69050 done 2061888 ops_done 1992838 Timer 32 fill_done 0 warm_done 1 OPS : 64434.000000 
+[   5] [1000:32] interval 69144 done 2061916 ops_done 1992772 Timer 32 fill_done 0 warm_done 1 OPS : 64434.875000 
+[   4] [1000:33] interval 58254 done 2119926 ops_done 2061672 Timer 33 fill_done 0 warm_done 1 OPS : 64240.183594 
+[   7] [1000:33] interval 58230 done 2119926 ops_done 2061696 Timer 33 fill_done 0 warm_done 1 OPS : 64240.183594 
+[   2] [1000:33] interval 58207 done 2119926 ops_done 2061719 Timer 33 fill_done 0 warm_done 1 OPS : 64240.183594 
+[   3] [1000:33] interval 57904 done 2119792 ops_done 2061888 Timer 33 fill_done 0 warm_done 1 OPS : 64236.121094 
+[   0] [1000:33] interval 58211 done 2119923 ops_done 2061712 Timer 33 fill_done 0 warm_done 1 OPS : 64240.089844 
+[   6] [1000:33] interval 58250 done 2119926 ops_done 2061676 Timer 33 fill_done 0 warm_done 1 OPS : 64240.183594 
+[   1] [1000:33] interval 58235 done 2119926 ops_done 2061691 Timer 33 fill_done 0 warm_done 1 OPS : 64240.183594 
+[   5] [1000:33] interval 58007 done 2119923 ops_done 2061916 Timer 33 fill_done 0 warm_done 1 OPS : 64240.089844 
+[   4] [1000:34] interval 49914 done 2169840 ops_done 2119926 Timer 34 fill_done 0 warm_done 1 OPS : 63818.824219 
+[   6] [1000:34] interval 49921 done 2169847 ops_done 2119926 Timer 34 fill_done 0 warm_done 1 OPS : 63819.031250 
+[   1] [1000:34] interval 49933 done 2169859 ops_done 2119926 Timer 34 fill_done 0 warm_done 1 OPS : 63819.382812 
+[   7] [1000:34] interval 49934 done 2169860 ops_done 2119926 Timer 34 fill_done 0 warm_done 1 OPS : 63819.410156 
+[   0] [1000:34] interval 49951 done 2169874 ops_done 2119923 Timer 34 fill_done 0 warm_done 1 OPS : 63819.824219 
+[   2] [1000:34] interval 49961 done 2169887 ops_done 2119926 Timer 34 fill_done 0 warm_done 1 OPS : 63820.207031 
+[   3] [1000:34] interval 50293 done 2170085 ops_done 2119792 Timer 34 fill_done 0 warm_done 1 OPS : 63826.031250 
+[   5] [1000:34] interval 50190 done 2170113 ops_done 2119923 Timer 34 fill_done 0 warm_done 1 OPS : 63826.851562 
+[   4] [1000:35] interval 66412 done 2236252 ops_done 2169840 Timer 35 fill_done 0 warm_done 1 OPS : 63892.914062 
+[   6] [1000:35] interval 66407 done 2236254 ops_done 2169847 Timer 35 fill_done 0 warm_done 1 OPS : 63892.972656 
+[   1] [1000:35] interval 66399 done 2236258 ops_done 2169859 Timer 35 fill_done 0 warm_done 1 OPS : 63893.085938 
+[   7] [1000:35] interval 66407 done 2236267 ops_done 2169860 Timer 35 fill_done 0 warm_done 1 OPS : 63893.343750 
+[   0] [1000:35] interval 66412 done 2236286 ops_done 2169874 Timer 35 fill_done 0 warm_done 1 OPS : 63893.886719 
+[   2] [1000:35] interval 66404 done 2236291 ops_done 2169887 Timer 35 fill_done 0 warm_done 1 OPS : 63894.027344 
+[   3] [1000:35] interval 66354 done 2236439 ops_done 2170085 Timer 35 fill_done 0 warm_done 1 OPS : 63898.257812 
+[   5] [1000:35] interval 66361 done 2236474 ops_done 2170113 Timer 35 fill_done 0 warm_done 1 OPS : 63899.257812 
+[   4] [1000:36] interval 75604 done 2311856 ops_done 2236252 Timer 36 fill_done 0 warm_done 1 OPS : 64218.222656 
+[   6] [1000:36] interval 75611 done 2311865 ops_done 2236254 Timer 36 fill_done 0 warm_done 1 OPS : 64218.472656 
+[   1] [1000:36] interval 75625 done 2311883 ops_done 2236258 Timer 36 fill_done 0 warm_done 1 OPS : 64218.972656 
+[   7] [1000:36] interval 75618 done 2311885 ops_done 2236267 Timer 36 fill_done 0 warm_done 1 OPS : 64219.027344 
+[   0] [1000:36] interval 75618 done 2311904 ops_done 2236286 Timer 36 fill_done 0 warm_done 1 OPS : 64219.554688 
+[   2] [1000:36] interval 75621 done 2311912 ops_done 2236291 Timer 36 fill_done 0 warm_done 1 OPS : 64219.777344 
+[   3] [1000:36] interval 75640 done 2312079 ops_done 2236439 Timer 36 fill_done 0 warm_done 1 OPS : 64224.417969 
+[   5] [1000:36] interval 75644 done 2312118 ops_done 2236474 Timer 36 fill_done 0 warm_done 1 OPS : 64225.500000 
+[   4] [1000:37] interval 52701 done 2364557 ops_done 2311856 Timer 37 fill_done 0 warm_done 1 OPS : 63906.945312 
+[   6] [1000:37] interval 52693 done 2364558 ops_done 2311865 Timer 37 fill_done 0 warm_done 1 OPS : 63906.972656 
+[   1] [1000:37] interval 52689 done 2364572 ops_done 2311883 Timer 37 fill_done 0 warm_done 1 OPS : 63907.351562 
+[   7] [1000:37] interval 52699 done 2364584 ops_done 2311885 Timer 37 fill_done 0 warm_done 1 OPS : 63907.675781 
+[   0] [1000:37] interval 52692 done 2364596 ops_done 2311904 Timer 37 fill_done 0 warm_done 1 OPS : 63908.000000 
+[   2] [1000:37] interval 52698 done 2364610 ops_done 2311912 Timer 37 fill_done 0 warm_done 1 OPS : 63908.378906 
+[   3] [1000:37] interval 52717 done 2364796 ops_done 2312079 Timer 37 fill_done 0 warm_done 1 OPS : 63913.406250 
+[   5] [1000:37] interval 52725 done 2364843 ops_done 2312118 Timer 37 fill_done 0 warm_done 1 OPS : 63914.675781 
+[   4] [1000:38] interval 75979 done 2440536 ops_done 2364557 Timer 38 fill_done 0 warm_done 1 OPS : 64224.632812 
+[   6] [1000:38] interval 75979 done 2440537 ops_done 2364558 Timer 38 fill_done 0 warm_done 1 OPS : 64224.656250 
+[   1] [1000:38] interval 75965 done 2440537 ops_done 2364572 Timer 38 fill_done 0 warm_done 1 OPS : 64224.656250 
+[   7] [1000:38] interval 75970 done 2440554 ops_done 2364584 Timer 38 fill_done 0 warm_done 1 OPS : 64225.105469 
+[   0] [1000:38] interval 75965 done 2440561 ops_done 2364596 Timer 38 fill_done 0 warm_done 1 OPS : 64225.289062 
+[   2] [1000:38] interval 75960 done 2440570 ops_done 2364610 Timer 38 fill_done 0 warm_done 1 OPS : 64225.527344 
+[   3] [1000:38] interval 75927 done 2440723 ops_done 2364796 Timer 38 fill_done 0 warm_done 1 OPS : 64229.550781 
+[   5] [1000:38] interval 75914 done 2440757 ops_done 2364843 Timer 38 fill_done 0 warm_done 1 OPS : 64230.449219 
+[   4] [1000:39] interval 33052 done 2473588 ops_done 2440536 Timer 39 fill_done 0 warm_done 1 OPS : 63425.332031 
+[   6] [1000:39] interval 33056 done 2473593 ops_done 2440537 Timer 39 fill_done 0 warm_done 1 OPS : 63425.460938 
+[   1] [1000:39] interval 33068 done 2473605 ops_done 2440537 Timer 39 fill_done 0 warm_done 1 OPS : 63425.769531 
+[   7] [1000:39] interval 33056 done 2473610 ops_done 2440554 Timer 39 fill_done 0 warm_done 1 OPS : 63425.898438 
+[   0] [1000:39] interval 33058 done 2473619 ops_done 2440561 Timer 39 fill_done 0 warm_done 1 OPS : 63426.128906 
+[   2] [1000:39] interval 33063 done 2473633 ops_done 2440570 Timer 39 fill_done 0 warm_done 1 OPS : 63426.488281 
+[   3] [1000:39] interval 33103 done 2473826 ops_done 2440723 Timer 39 fill_done 0 warm_done 1 OPS : 63431.437500 
+[   5] [1000:39] interval 33109 done 2473866 ops_done 2440757 Timer 39 fill_done 0 warm_done 1 OPS : 63432.460938 
+[   4] [1000:40] interval 74714 done 2548302 ops_done 2473588 Timer 40 fill_done 0 warm_done 1 OPS : 63707.550781 
+[   6] [1000:40] interval 74712 done 2548305 ops_done 2473593 Timer 40 fill_done 0 warm_done 1 OPS : 63707.625000 
+[   1] [1000:40] interval 74705 done 2548310 ops_done 2473605 Timer 40 fill_done 0 warm_done 1 OPS : 63707.750000 
+[   7] [1000:40] interval 74709 done 2548319 ops_done 2473610 Timer 40 fill_done 0 warm_done 1 OPS : 63707.976562 
+[   0] [1000:40] interval 74708 done 2548327 ops_done 2473619 Timer 40 fill_done 0 warm_done 1 OPS : 63708.175781 
+[   2] [1000:40] interval 74709 done 2548342 ops_done 2473633 Timer 40 fill_done 0 warm_done 1 OPS : 63708.550781 
+[   3] [1000:40] interval 74663 done 2548489 ops_done 2473826 Timer 40 fill_done 0 warm_done 1 OPS : 63712.226562 
+[   5] [1000:40] interval 74665 done 2548531 ops_done 2473866 Timer 40 fill_done 0 warm_done 1 OPS : 63713.273438 
+[   4] [1000:41] interval 48623 done 2596925 ops_done 2548302 Timer 41 fill_done 0 warm_done 1 OPS : 63339.632812 
+[   6] [1000:41] interval 48625 done 2596930 ops_done 2548305 Timer 41 fill_done 0 warm_done 1 OPS : 63339.757812 
+[   1] [1000:41] interval 48629 done 2596939 ops_done 2548310 Timer 41 fill_done 0 warm_done 1 OPS : 63339.976562 
+[   7] [1000:41] interval 48621 done 2596940 ops_done 2548319 Timer 41 fill_done 0 warm_done 1 OPS : 63340.000000 
+[   0] [1000:41] interval 48627 done 2596954 ops_done 2548327 Timer 41 fill_done 0 warm_done 1 OPS : 63340.339844 
+[   2] [1000:41] interval 48623 done 2596965 ops_done 2548342 Timer 41 fill_done 0 warm_done 1 OPS : 63340.609375 
+[   3] [1000:41] interval 48654 done 2597143 ops_done 2548489 Timer 41 fill_done 0 warm_done 1 OPS : 63344.953125 
+[   5] [1000:41] interval 48650 done 2597181 ops_done 2548531 Timer 41 fill_done 0 warm_done 1 OPS : 63345.878906 
+[   4] [1000:42] interval 71897 done 2668822 ops_done 2596925 Timer 42 fill_done 0 warm_done 1 OPS : 63543.382812 
+[   6] [1000:42] interval 71906 done 2668836 ops_done 2596930 Timer 42 fill_done 0 warm_done 1 OPS : 63543.714844 
+[   1] [1000:42] interval 71900 done 2668839 ops_done 2596939 Timer 42 fill_done 0 warm_done 1 OPS : 63543.785156 
+[   7] [1000:42] interval 71913 done 2668853 ops_done 2596940 Timer 42 fill_done 0 warm_done 1 OPS : 63544.117188 
+[   0] [1000:42] interval 71906 done 2668860 ops_done 2596954 Timer 42 fill_done 0 warm_done 1 OPS : 63544.285156 
+[   2] [1000:42] interval 71915 done 2668880 ops_done 2596965 Timer 42 fill_done 0 warm_done 1 OPS : 63544.761719 
+[   3] [1000:42] interval 71929 done 2669072 ops_done 2597143 Timer 42 fill_done 0 warm_done 1 OPS : 63549.332031 
+[   5] [1000:42] interval 71929 done 2669110 ops_done 2597181 Timer 42 fill_done 0 warm_done 1 OPS : 63550.238281 
+[   4] [1000:43] interval 71993 done 2740815 ops_done 2668822 Timer 43 fill_done 0 warm_done 1 OPS : 63739.882812 
+[   6] [1000:43] interval 71982 done 2740818 ops_done 2668836 Timer 43 fill_done 0 warm_done 1 OPS : 63739.953125 
+[   1] [1000:43] interval 71997 done 2740836 ops_done 2668839 Timer 43 fill_done 0 warm_done 1 OPS : 63740.371094 
+[   7] [1000:43] interval 71985 done 2740838 ops_done 2668853 Timer 43 fill_done 0 warm_done 1 OPS : 63740.417969 
+[   0] [1000:43] interval 71995 done 2740855 ops_done 2668860 Timer 43 fill_done 0 warm_done 1 OPS : 63740.812500 
+[   2] [1000:43] interval 71985 done 2740865 ops_done 2668880 Timer 43 fill_done 0 warm_done 1 OPS : 63741.046875 
+[   3] [1000:43] interval 71969 done 2741041 ops_done 2669072 Timer 43 fill_done 0 warm_done 1 OPS : 63745.140625 
+[   5] [1000:43] interval 71961 done 2741071 ops_done 2669110 Timer 43 fill_done 0 warm_done 1 OPS : 63745.835938 
+[   4] [1000:44] interval 59532 done 2800347 ops_done 2740815 Timer 44 fill_done 0 warm_done 1 OPS : 63644.250000 
+[   6] [1000:44] interval 59524 done 2800342 ops_done 2740818 Timer 44 fill_done 0 warm_done 1 OPS : 63644.136719 
+[   1] [1000:44] interval 59522 done 2800358 ops_done 2740836 Timer 44 fill_done 0 warm_done 1 OPS : 63644.500000 
+[   7] [1000:44] interval 59516 done 2800354 ops_done 2740838 Timer 44 fill_done 0 warm_done 1 OPS : 63644.410156 
+[   0] [1000:44] interval 59521 done 2800376 ops_done 2740855 Timer 44 fill_done 0 warm_done 1 OPS : 63644.910156 
+[   2] [1000:44] interval 59519 done 2800384 ops_done 2740865 Timer 44 fill_done 0 warm_done 1 OPS : 63645.089844 
+[   3] [1000:44] interval 59520 done 2800561 ops_done 2741041 Timer 44 fill_done 0 warm_done 1 OPS : 63649.113281 
+[   5] [1000:44] interval 59519 done 2800590 ops_done 2741071 Timer 44 fill_done 0 warm_done 1 OPS : 63649.773438 
+[   4] [1000:45] interval 76621 done 2876968 ops_done 2800347 Timer 45 fill_done 0 warm_done 1 OPS : 63932.621094 
+[   6] [1000:45] interval 76634 done 2876976 ops_done 2800342 Timer 45 fill_done 0 warm_done 1 OPS : 63932.800781 
+[   1] [1000:45] interval 76628 done 2876986 ops_done 2800358 Timer 45 fill_done 0 warm_done 1 OPS : 63933.023438 
+[   7] [1000:45] interval 76636 done 2876990 ops_done 2800354 Timer 45 fill_done 0 warm_done 1 OPS : 63933.109375 
+[   0] [1000:45] interval 76628 done 2877004 ops_done 2800376 Timer 45 fill_done 0 warm_done 1 OPS : 63933.421875 
+[   2] [1000:45] interval 76635 done 2877019 ops_done 2800384 Timer 45 fill_done 0 warm_done 1 OPS : 63933.753906 
+[   3] [1000:45] interval 76611 done 2877172 ops_done 2800561 Timer 45 fill_done 0 warm_done 1 OPS : 63937.156250 
+[   5] [1000:45] interval 76619 done 2877209 ops_done 2800590 Timer 45 fill_done 0 warm_done 1 OPS : 63937.976562 
+[   5] [1000:50] interval 26090 done 2903299 ops_done 2877209 Timer 50 fill_done 0 warm_done 1 OPS : 58065.980469 
+[   3] [1000:50] interval 26127 done 2903299 ops_done 2877172 Timer 50 fill_done 0 warm_done 1 OPS : 58065.980469 
+[   1] [1000:50] interval 26313 done 2903299 ops_done 2876986 Timer 50 fill_done 0 warm_done 1 OPS : 58065.980469 
+[   6] [1000:50] interval 26323 done 2903299 ops_done 2876976 Timer 50 fill_done 0 warm_done 1 OPS : 58065.980469 
+[   4] [1000:50] interval 26331 done 2903299 ops_done 2876968 Timer 50 fill_done 0 warm_done 1 OPS : 58065.980469 
+[   2] [1000:50] interval 26280 done 2903299 ops_done 2877019 Timer 50 fill_done 0 warm_done 1 OPS : 58065.980469 
+[   7] [1000:50] interval 26309 done 2903299 ops_done 2876990 Timer 50 fill_done 0 warm_done 1 OPS : 58065.980469 
+[   0] [1000:50] interval 26295 done 2903299 ops_done 2877004 Timer 50 fill_done 0 warm_done 1 OPS : 58065.980469 
+[   4] [1000:51] interval 11721 done 2915020 ops_done 2903299 Timer 51 fill_done 0 warm_done 1 OPS : 57157.253906 
+[   6] [1000:51] interval 11728 done 2915027 ops_done 2903299 Timer 51 fill_done 0 warm_done 1 OPS : 57157.390625 
+[   1] [1000:51] interval 11736 done 2915035 ops_done 2903299 Timer 51 fill_done 0 warm_done 1 OPS : 57157.550781 
+[   7] [1000:51] interval 11738 done 2915037 ops_done 2903299 Timer 51 fill_done 0 warm_done 1 OPS : 57157.589844 
+[   0] [1000:51] interval 11748 done 2915047 ops_done 2903299 Timer 51 fill_done 0 warm_done 1 OPS : 57157.785156 
+[   2] [1000:51] interval 11760 done 2915059 ops_done 2903299 Timer 51 fill_done 0 warm_done 1 OPS : 57158.019531 
+[   3] [1000:51] interval 11922 done 2915221 ops_done 2903299 Timer 51 fill_done 0 warm_done 1 OPS : 57161.195312 
+[   5] [1000:51] interval 11960 done 2915259 ops_done 2903299 Timer 51 fill_done 0 warm_done 1 OPS : 57161.941406 
+[   4] [1000:52] interval 69874 done 2984894 ops_done 2915020 Timer 52 fill_done 0 warm_done 1 OPS : 57401.808594 
+[   6] [1000:52] interval 69871 done 2984898 ops_done 2915027 Timer 52 fill_done 0 warm_done 1 OPS : 57401.882812 
+[   1] [1000:52] interval 69868 done 2984903 ops_done 2915035 Timer 52 fill_done 0 warm_done 1 OPS : 57401.980469 
+[   7] [1000:52] interval 69867 done 2984904 ops_done 2915037 Timer 52 fill_done 0 warm_done 1 OPS : 57402.000000 
+[   0] [1000:52] interval 69866 done 2984913 ops_done 2915047 Timer 52 fill_done 0 warm_done 1 OPS : 57402.171875 
+[   2] [1000:52] interval 69871 done 2984930 ops_done 2915059 Timer 52 fill_done 0 warm_done 1 OPS : 57402.500000 
+[   3] [1000:52] interval 69879 done 2985100 ops_done 2915221 Timer 52 fill_done 0 warm_done 1 OPS : 57405.769531 
+[   5] [1000:52] interval 69874 done 2985133 ops_done 2915259 Timer 52 fill_done 0 warm_done 1 OPS : 57406.402344 
+[   4] [1000:53] interval 58920 done 3043814 ops_done 2984894 Timer 53 fill_done 0 warm_done 1 OPS : 57430.453125 
+[   6] [1000:53] interval 58923 done 3043821 ops_done 2984898 Timer 53 fill_done 0 warm_done 1 OPS : 57430.585938 
+[   1] [1000:53] interval 58736 done 3043639 ops_done 2984903 Timer 53 fill_done 0 warm_done 1 OPS : 57427.152344 
+[   7] [1000:53] interval 58924 done 3043828 ops_done 2984904 Timer 53 fill_done 0 warm_done 1 OPS : 57430.718750 
+[   0] [1000:53] interval 58933 done 3043846 ops_done 2984913 Timer 53 fill_done 0 warm_done 1 OPS : 57431.054688 
+[   2] [1000:53] interval 58925 done 3043855 ops_done 2984930 Timer 53 fill_done 0 warm_done 1 OPS : 57431.226562 
+[   3] [1000:53] interval 58915 done 3044015 ops_done 2985100 Timer 53 fill_done 0 warm_done 1 OPS : 57434.246094 
+[   5] [1000:53] interval 58921 done 3044054 ops_done 2985133 Timer 53 fill_done 0 warm_done 1 OPS : 57434.980469 
+[   4] [1000:54] interval 70164 done 3113978 ops_done 3043814 Timer 54 fill_done 0 warm_done 1 OPS : 57666.257812 
+[   6] [1000:54] interval 70163 done 3113984 ops_done 3043821 Timer 54 fill_done 0 warm_done 1 OPS : 57666.371094 
+[   1] [1000:54] interval 70357 done 3113996 ops_done 3043639 Timer 54 fill_done 0 warm_done 1 OPS : 57666.593750 
+[   7] [1000:54] interval 70175 done 3114003 ops_done 3043828 Timer 54 fill_done 0 warm_done 1 OPS : 57666.722656 
+[   0] [1000:54] interval 70167 done 3114013 ops_done 3043846 Timer 54 fill_done 0 warm_done 1 OPS : 57666.906250 
+[   2] [1000:54] interval 70167 done 3114022 ops_done 3043855 Timer 54 fill_done 0 warm_done 1 OPS : 57667.074219 
+[   3] [1000:54] interval 70175 done 3114190 ops_done 3044015 Timer 54 fill_done 0 warm_done 1 OPS : 57670.183594 
+[   5] [1000:54] interval 70171 done 3114225 ops_done 3044054 Timer 54 fill_done 0 warm_done 1 OPS : 57670.832031 
+[   3] [1000:55] interval 18741 done 3132931 ops_done 3114190 Timer 55 fill_done 0 warm_done 1 OPS : 56962.382812 
+[   7] [1000:55] interval 18928 done 3132931 ops_done 3114003 Timer 55 fill_done 0 warm_done 1 OPS : 56962.382812 
+[   6] [1000:55] interval 18947 done 3132931 ops_done 3113984 Timer 55 fill_done 0 warm_done 1 OPS : 56962.382812 
+[   4] [1000:55] interval 18953 done 3132931 ops_done 3113978 Timer 55 fill_done 0 warm_done 1 OPS : 56962.382812 
+[   2] [1000:55] interval 18909 done 3132931 ops_done 3114022 Timer 55 fill_done 0 warm_done 1 OPS : 56962.382812 
+[   1] [1000:55] interval 18935 done 3132931 ops_done 3113996 Timer 55 fill_done 0 warm_done 1 OPS : 56962.382812 
+[   0] [1000:55] interval 18919 done 3132932 ops_done 3114013 Timer 55 fill_done 0 warm_done 1 OPS : 56962.398438 
+[   5] [1000:55] interval 18491 done 3132716 ops_done 3114225 Timer 55 fill_done 0 warm_done 1 OPS : 56958.472656 
+[   4] [1000:56] interval 18777 done 3151708 ops_done 3132931 Timer 56 fill_done 0 warm_done 1 OPS : 56280.500000 
+[   6] [1000:56] interval 18779 done 3151710 ops_done 3132931 Timer 56 fill_done 0 warm_done 1 OPS : 56280.535156 
+[   1] [1000:56] interval 18790 done 3151721 ops_done 3132931 Timer 56 fill_done 0 warm_done 1 OPS : 56280.730469 
+[   7] [1000:56] interval 18792 done 3151723 ops_done 3132931 Timer 56 fill_done 0 warm_done 1 OPS : 56280.769531 
+[   0] [1000:56] interval 18800 done 3151732 ops_done 3132932 Timer 56 fill_done 0 warm_done 1 OPS : 56280.929688 
+[   2] [1000:56] interval 18813 done 3151744 ops_done 3132931 Timer 56 fill_done 0 warm_done 1 OPS : 56281.144531 
+[   3] [1000:56] interval 18952 done 3151883 ops_done 3132931 Timer 56 fill_done 0 warm_done 1 OPS : 56283.625000 
+[   5] [1000:56] interval 19213 done 3151929 ops_done 3132716 Timer 56 fill_done 0 warm_done 1 OPS : 56284.445312 
+[   4] [1000:57] interval 72097 done 3223805 ops_done 3151708 Timer 57 fill_done 0 warm_done 1 OPS : 56557.984375 
+[   5] [1000:57] interval 71875 done 3223804 ops_done 3151929 Timer 57 fill_done 0 warm_done 1 OPS : 56557.964844 
+[   2] [1000:57] interval 72060 done 3223804 ops_done 3151744 Timer 57 fill_done 0 warm_done 1 OPS : 56557.964844 
+[   6] [1000:57] interval 72094 done 3223804 ops_done 3151710 Timer 57 fill_done 0 warm_done 1 OPS : 56557.964844 
+[   7] [1000:57] interval 72081 done 3223804 ops_done 3151723 Timer 57 fill_done 0 warm_done 1 OPS : 56557.964844 
+[   3] [1000:57] interval 71922 done 3223805 ops_done 3151883 Timer 57 fill_done 0 warm_done 1 OPS : 56557.984375 
+[   0] [1000:57] interval 72073 done 3223805 ops_done 3151732 Timer 57 fill_done 0 warm_done 1 OPS : 56557.984375 
+[   1] [1000:57] interval 72083 done 3223804 ops_done 3151721 Timer 57 fill_done 0 warm_done 1 OPS : 56557.964844 
+[   4] [1000:58] interval 70283 done 3294088 ops_done 3223805 Timer 58 fill_done 0 warm_done 1 OPS : 56794.621094 
+[   6] [1000:58] interval 70292 done 3294096 ops_done 3223804 Timer 58 fill_done 0 warm_done 1 OPS : 56794.757812 
+[   1] [1000:58] interval 70298 done 3294102 ops_done 3223804 Timer 58 fill_done 0 warm_done 1 OPS : 56794.863281 
+[   7] [1000:58] interval 70300 done 3294104 ops_done 3223804 Timer 58 fill_done 0 warm_done 1 OPS : 56794.898438 
+[   0] [1000:58] interval 70318 done 3294123 ops_done 3223805 Timer 58 fill_done 0 warm_done 1 OPS : 56795.222656 
+[   2] [1000:58] interval 70336 done 3294140 ops_done 3223804 Timer 58 fill_done 0 warm_done 1 OPS : 56795.515625 
+[   3] [1000:58] interval 70512 done 3294317 ops_done 3223805 Timer 58 fill_done 0 warm_done 1 OPS : 56798.570312 
+[   5] [1000:58] interval 70541 done 3294345 ops_done 3223804 Timer 58 fill_done 0 warm_done 1 OPS : 56799.050781 
+[   4] [1000:59] interval 55365 done 3349453 ops_done 3294088 Timer 59 fill_done 0 warm_done 1 OPS : 56770.390625 
+[   6] [1000:59] interval 55365 done 3349461 ops_done 3294096 Timer 59 fill_done 0 warm_done 1 OPS : 56770.527344 
+[   1] [1000:59] interval 55364 done 3349466 ops_done 3294102 Timer 59 fill_done 0 warm_done 1 OPS : 56770.609375 
+[   7] [1000:59] interval 55357 done 3349461 ops_done 3294104 Timer 59 fill_done 0 warm_done 1 OPS : 56770.527344 
+[   0] [1000:59] interval 55338 done 3349461 ops_done 3294123 Timer 59 fill_done 0 warm_done 1 OPS : 56770.527344 
+[   2] [1000:59] interval 55335 done 3349475 ops_done 3294140 Timer 59 fill_done 0 warm_done 1 OPS : 56770.761719 
+[   3] [1000:59] interval 55239 done 3349556 ops_done 3294317 Timer 59 fill_done 0 warm_done 1 OPS : 56772.136719 
+[   5] [1000:59] interval 55116 done 3349461 ops_done 3294345 Timer 59 fill_done 0 warm_done 1 OPS : 56770.527344 
+[   4] [1000:60] interval 72259 done 3421712 ops_done 3349453 Timer 60 fill_done 0 warm_done 1 OPS : 57028.535156 
+[   6] [1000:60] interval 72261 done 3421722 ops_done 3349461 Timer 60 fill_done 0 warm_done 1 OPS : 57028.699219 
+[   1] [1000:60] interval 72271 done 3421737 ops_done 3349466 Timer 60 fill_done 0 warm_done 1 OPS : 57028.949219 
+[   7] [1000:60] interval 72281 done 3421742 ops_done 3349461 Timer 60 fill_done 0 warm_done 1 OPS : 57029.035156 
+[   0] [1000:60] interval 72293 done 3421754 ops_done 3349461 Timer 60 fill_done 0 warm_done 1 OPS : 57029.234375 
+[   2] [1000:60] interval 72291 done 3421766 ops_done 3349475 Timer 60 fill_done 0 warm_done 1 OPS : 57029.433594 
+[   3] [1000:60] interval 72358 done 3421914 ops_done 3349556 Timer 60 fill_done 0 warm_done 1 OPS : 57031.898438 
+[   5] [1000:60] interval 72495 done 3421956 ops_done 3349461 Timer 60 fill_done 0 warm_done 1 OPS : 57032.601562 
+[   4] [1000:61] interval 38749 done 3460461 ops_done 3421712 Timer 61 fill_done 0 warm_done 1 OPS : 56728.867188 
+[   1] [1000:61] interval 38724 done 3460461 ops_done 3421737 Timer 61 fill_done 0 warm_done 1 OPS : 56728.867188 
+[   2] [1000:61] interval 38696 done 3460462 ops_done 3421766 Timer 61 fill_done 0 warm_done 1 OPS : 56728.886719 
+[   5] [1000:61] interval 38505 done 3460461 ops_done 3421956 Timer 61 fill_done 0 warm_done 1 OPS : 56728.867188 
+[   0] [1000:61] interval 38707 done 3460461 ops_done 3421754 Timer 61 fill_done 0 warm_done 1 OPS : 56728.867188 
+[   7] [1000:61] interval 38719 done 3460461 ops_done 3421742 Timer 61 fill_done 0 warm_done 1 OPS : 56728.867188 
+[   6] [1000:61] interval 38739 done 3460461 ops_done 3421722 Timer 61 fill_done 0 warm_done 1 OPS : 56728.867188 
+[   3] [1000:61] interval 38547 done 3460461 ops_done 3421914 Timer 61 fill_done 0 warm_done 1 OPS : 56728.867188 
+[   4] [1000:62] interval 64491 done 3524952 ops_done 3460461 Timer 62 fill_done 0 warm_done 1 OPS : 56854.066406 
+[   6] [1000:62] interval 64497 done 3524958 ops_done 3460461 Timer 62 fill_done 0 warm_done 1 OPS : 56854.160156 
+[   1] [1000:62] interval 64507 done 3524968 ops_done 3460461 Timer 62 fill_done 0 warm_done 1 OPS : 56854.324219 
+[   7] [1000:62] interval 64514 done 3524975 ops_done 3460461 Timer 62 fill_done 0 warm_done 1 OPS : 56854.433594 
+[   0] [1000:62] interval 64519 done 3524980 ops_done 3460461 Timer 62 fill_done 0 warm_done 1 OPS : 56854.515625 
+[   2] [1000:62] interval 64530 done 3524992 ops_done 3460462 Timer 62 fill_done 0 warm_done 1 OPS : 56854.710938 
+[   3] [1000:62] interval 64682 done 3525143 ops_done 3460461 Timer 62 fill_done 0 warm_done 1 OPS : 56857.144531 
+[   5] [1000:62] interval 64713 done 3525174 ops_done 3460461 Timer 62 fill_done 0 warm_done 1 OPS : 56857.644531 
+[   1] [1000:63] interval 46124 done 3571092 ops_done 3524968 Timer 63 fill_done 0 warm_done 1 OPS : 56684.000000 
+[   4] [1000:63] interval 46139 done 3571091 ops_done 3524952 Timer 63 fill_done 0 warm_done 1 OPS : 56683.984375 
+[   7] [1000:63] interval 46116 done 3571091 ops_done 3524975 Timer 63 fill_done 0 warm_done 1 OPS : 56683.984375 
+[   3] [1000:63] interval 45952 done 3571095 ops_done 3525143 Timer 63 fill_done 0 warm_done 1 OPS : 56684.046875 
+[   2] [1000:63] interval 46099 done 3571091 ops_done 3524992 Timer 63 fill_done 0 warm_done 1 OPS : 56683.984375 
+[   6] [1000:63] interval 46134 done 3571092 ops_done 3524958 Timer 63 fill_done 0 warm_done 1 OPS : 56684.000000 
+[   0] [1000:63] interval 46111 done 3571091 ops_done 3524980 Timer 63 fill_done 0 warm_done 1 OPS : 56683.984375 
+[   5] [1000:63] interval 45917 done 3571091 ops_done 3525174 Timer 63 fill_done 0 warm_done 1 OPS : 56683.984375 
+[   4] [1000:64] interval 59132 done 3630223 ops_done 3571091 Timer 64 fill_done 0 warm_done 1 OPS : 56722.234375 
+[   6] [1000:64] interval 59138 done 3630230 ops_done 3571092 Timer 64 fill_done 0 warm_done 1 OPS : 56722.343750 
+[   1] [1000:64] interval 59146 done 3630238 ops_done 3571092 Timer 64 fill_done 0 warm_done 1 OPS : 56722.468750 
+[   7] [1000:64] interval 59151 done 3630242 ops_done 3571091 Timer 64 fill_done 0 warm_done 1 OPS : 56722.531250 
+[   0] [1000:64] interval 59162 done 3630253 ops_done 3571091 Timer 64 fill_done 0 warm_done 1 OPS : 56722.703125 
+[   2] [1000:64] interval 59170 done 3630261 ops_done 3571091 Timer 64 fill_done 0 warm_done 1 OPS : 56722.828125 
+[   3] [1000:64] interval 59342 done 3630437 ops_done 3571095 Timer 64 fill_done 0 warm_done 1 OPS : 56725.578125 
+[   5] [1000:64] interval 59380 done 3630471 ops_done 3571091 Timer 64 fill_done 0 warm_done 1 OPS : 56726.109375 
+[   4] [1000:65] interval 60268 done 3690491 ops_done 3630223 Timer 65 fill_done 0 warm_done 1 OPS : 56776.785156 
+[   6] [1000:65] interval 60255 done 3690485 ops_done 3630230 Timer 65 fill_done 0 warm_done 1 OPS : 56776.691406 
+[   1] [1000:65] interval 60256 done 3690494 ops_done 3630238 Timer 65 fill_done 0 warm_done 1 OPS : 56776.832031 
+[   7] [1000:65] interval 60266 done 3690508 ops_done 3630242 Timer 65 fill_done 0 warm_done 1 OPS : 56777.046875 
+[   0] [1000:65] interval 60251 done 3690504 ops_done 3630253 Timer 65 fill_done 0 warm_done 1 OPS : 56776.984375 
+[   2] [1000:65] interval 60269 done 3690530 ops_done 3630261 Timer 65 fill_done 0 warm_done 1 OPS : 56777.382812 
+[   3] [1000:65] interval 60268 done 3690705 ops_done 3630437 Timer 65 fill_done 0 warm_done 1 OPS : 56780.078125 
+[   5] [1000:65] interval 60272 done 3690743 ops_done 3630471 Timer 65 fill_done 0 warm_done 1 OPS : 56780.660156 
+[   4] [1000:66] interval 74736 done 3765227 ops_done 3690491 Timer 66 fill_done 0 warm_done 1 OPS : 57048.894531 
+[   6] [1000:66] interval 74743 done 3765228 ops_done 3690485 Timer 66 fill_done 0 warm_done 1 OPS : 57048.910156 
+[   1] [1000:66] interval 74742 done 3765236 ops_done 3690494 Timer 66 fill_done 0 warm_done 1 OPS : 57049.031250 
+[   7] [1000:66] interval 74729 done 3765237 ops_done 3690508 Timer 66 fill_done 0 warm_done 1 OPS : 57049.046875 
+[   0] [1000:66] interval 74746 done 3765250 ops_done 3690504 Timer 66 fill_done 0 warm_done 1 OPS : 57049.242188 
+[   2] [1000:66] interval 74729 done 3765259 ops_done 3690530 Timer 66 fill_done 0 warm_done 1 OPS : 57049.378906 
+[   3] [1000:66] interval 74728 done 3765433 ops_done 3690705 Timer 66 fill_done 0 warm_done 1 OPS : 57052.015625 
+[   5] [1000:66] interval 74732 done 3765475 ops_done 3690743 Timer 66 fill_done 0 warm_done 1 OPS : 57052.652344 
+[   4] [1000:67] interval 68152 done 3833379 ops_done 3765227 Timer 67 fill_done 0 warm_done 1 OPS : 57214.613281 
+[   6] [1000:67] interval 68153 done 3833381 ops_done 3765228 Timer 67 fill_done 0 warm_done 1 OPS : 57214.640625 
+[   1] [1000:67] interval 68153 done 3833389 ops_done 3765236 Timer 67 fill_done 0 warm_done 1 OPS : 57214.761719 
+[   7] [1000:67] interval 68156 done 3833393 ops_done 3765237 Timer 67 fill_done 0 warm_done 1 OPS : 57214.820312 
+[   0] [1000:67] interval 68156 done 3833406 ops_done 3765250 Timer 67 fill_done 0 warm_done 1 OPS : 57215.015625 
+[   2] [1000:67] interval 68159 done 3833418 ops_done 3765259 Timer 67 fill_done 0 warm_done 1 OPS : 57215.195312 
+[   3] [1000:67] interval 68141 done 3833574 ops_done 3765433 Timer 67 fill_done 0 warm_done 1 OPS : 57217.523438 
+[   5] [1000:67] interval 68133 done 3833608 ops_done 3765475 Timer 67 fill_done 0 warm_done 1 OPS : 57218.031250 
+[   4] [1000:68] interval 67780 done 3901159 ops_done 3833379 Timer 68 fill_done 0 warm_done 1 OPS : 57369.984375 
+[   6] [1000:68] interval 67781 done 3901162 ops_done 3833381 Timer 68 fill_done 0 warm_done 1 OPS : 57370.031250 
+[   1] [1000:68] interval 67789 done 3901178 ops_done 3833389 Timer 68 fill_done 0 warm_done 1 OPS : 57370.265625 
+[   7] [1000:68] interval 67792 done 3901185 ops_done 3833393 Timer 68 fill_done 0 warm_done 1 OPS : 57370.367188 
+[   0] [1000:68] interval 67788 done 3901194 ops_done 3833406 Timer 68 fill_done 0 warm_done 1 OPS : 57370.500000 
+[   2] [1000:68] interval 67787 done 3901205 ops_done 3833418 Timer 68 fill_done 0 warm_done 1 OPS : 57370.660156 
+[   3] [1000:68] interval 67811 done 3901385 ops_done 3833574 Timer 68 fill_done 0 warm_done 1 OPS : 57373.308594 
+[   5] [1000:68] interval 67809 done 3901417 ops_done 3833608 Timer 68 fill_done 0 warm_done 1 OPS : 57373.781250 
+[   4] [1000:69] interval 72246 done 3973405 ops_done 3901159 Timer 69 fill_done 0 warm_done 1 OPS : 57585.578125 
+[   6] [1000:69] interval 72246 done 3973408 ops_done 3901162 Timer 69 fill_done 0 warm_done 1 OPS : 57585.625000 
+[   1] [1000:69] interval 72233 done 3973411 ops_done 3901178 Timer 69 fill_done 0 warm_done 1 OPS : 57585.667969 
+[   7] [1000:69] interval 72233 done 3973418 ops_done 3901185 Timer 69 fill_done 0 warm_done 1 OPS : 57585.769531 
+[   0] [1000:69] interval 72240 done 3973434 ops_done 3901194 Timer 69 fill_done 0 warm_done 1 OPS : 57586.000000 
+[   2] [1000:69] interval 72249 done 3973454 ops_done 3901205 Timer 69 fill_done 0 warm_done 1 OPS : 57586.289062 
+[   3] [1000:69] interval 72244 done 3973629 ops_done 3901385 Timer 69 fill_done 0 warm_done 1 OPS : 57588.824219 
+[   5] [1000:69] interval 72244 done 3973661 ops_done 3901417 Timer 69 fill_done 0 warm_done 1 OPS : 57589.289062 
+[   4] [1000:70] interval 68446 done 4041851 ops_done 3973405 Timer 70 fill_done 0 warm_done 1 OPS : 57740.730469 
+[   6] [1000:70] interval 68449 done 4041857 ops_done 3973408 Timer 70 fill_done 0 warm_done 1 OPS : 57740.812500 
+[   1] [1000:70] interval 68461 done 4041872 ops_done 3973411 Timer 70 fill_done 0 warm_done 1 OPS : 57741.027344 
+[   7] [1000:70] interval 68456 done 4041874 ops_done 3973418 Timer 70 fill_done 0 warm_done 1 OPS : 57741.058594 
+[   0] [1000:70] interval 68452 done 4041886 ops_done 3973434 Timer 70 fill_done 0 warm_done 1 OPS : 57741.230469 
+[   2] [1000:70] interval 68444 done 4041898 ops_done 3973454 Timer 70 fill_done 0 warm_done 1 OPS : 57741.398438 
+[   3] [1000:70] interval 68436 done 4042065 ops_done 3973629 Timer 70 fill_done 0 warm_done 1 OPS : 57743.785156 
+[   5] [1000:70] interval 68456 done 4042117 ops_done 3973661 Timer 70 fill_done 0 warm_done 1 OPS : 57744.527344 
+[   4] [1000:71] interval 71486 done 4113337 ops_done 4041851 Timer 71 fill_done 0 warm_done 1 OPS : 57934.324219 
+[   6] [1000:71] interval 71484 done 4113341 ops_done 4041857 Timer 71 fill_done 0 warm_done 1 OPS : 57934.378906 
+[   1] [1000:71] interval 71485 done 4113357 ops_done 4041872 Timer 71 fill_done 0 warm_done 1 OPS : 57934.605469 
+[   7] [1000:71] interval 71487 done 4113361 ops_done 4041874 Timer 71 fill_done 0 warm_done 1 OPS : 57934.660156 
+[   0] [1000:71] interval 71486 done 4113372 ops_done 4041886 Timer 71 fill_done 0 warm_done 1 OPS : 57934.816406 
+[   2] [1000:71] interval 71486 done 4113384 ops_done 4041898 Timer 71 fill_done 0 warm_done 1 OPS : 57934.984375 
+[   3] [1000:71] interval 71467 done 4113532 ops_done 4042065 Timer 71 fill_done 0 warm_done 1 OPS : 57937.070312 
+[   5] [1000:71] interval 71440 done 4113557 ops_done 4042117 Timer 71 fill_done 0 warm_done 1 OPS : 57937.421875 
+[   4] [1000:72] interval 68215 done 4181552 ops_done 4113337 Timer 72 fill_done 0 warm_done 1 OPS : 58077.109375 
+[   6] [1000:72] interval 68212 done 4181553 ops_done 4113341 Timer 72 fill_done 0 warm_done 1 OPS : 58077.125000 
+[   1] [1000:72] interval 68204 done 4181561 ops_done 4113357 Timer 72 fill_done 0 warm_done 1 OPS : 58077.234375 
+[   7] [1000:72] interval 68203 done 4181564 ops_done 4113361 Timer 72 fill_done 0 warm_done 1 OPS : 58077.277344 
+[   0] [1000:72] interval 68204 done 4181576 ops_done 4113372 Timer 72 fill_done 0 warm_done 1 OPS : 58077.445312 
+[   2] [1000:72] interval 68207 done 4181591 ops_done 4113384 Timer 72 fill_done 0 warm_done 1 OPS : 58077.652344 
+[   3] [1000:72] interval 68212 done 4181744 ops_done 4113532 Timer 72 fill_done 0 warm_done 1 OPS : 58079.777344 
+[   5] [1000:72] interval 68228 done 4181785 ops_done 4113557 Timer 72 fill_done 0 warm_done 1 OPS : 58080.347656 
+RD Latency Insert Done ! Size 0 
+WR Latency Insert Done ! Size 0 
+Scan Latency Insert Done ! Size 0 
+RD Latency Insert Done ! Size 0 
+WR Latency Insert Done ! Size 0 
+Scan Latency Insert Done ! Size 0 
+RD Latency Insert Done ! Size 0 
+WR Latency Insert Done ! Size 0 
+Scan Latency Insert Done ! Size 0 
+RD Latency Insert Done ! Size 0 
+WR Latency Insert Done ! Size 0 
+Scan Latency Insert Done ! Size 0 
+RD Latency Insert Done ! Size 0 
+WR Latency Insert Done ! Size 0 
+Scan Latency Insert Done ! Size 0 
+RD Latency Insert Done ! Size 0 
+WR Latency Insert Done ! Size 0 
+Scan Latency Insert Done ! Size 0 
+RD Latency Insert Done ! Size 0 
+WR Latency Insert Done ! Size 0 
+Scan Latency Insert Done ! Size 0 
+RD Latency Insert Done ! Size 0 
+WR Latency Insert Done ! Size 0 
+Scan Latency Insert Done ! Size 0 
+trace_a      :      17.210 micros/op 464833 ops/sec 72.270 seconds 33593744 operations;
+Microseconds per write:
+Count: 16796936 Average: 28.8036  StdDev: 4322.19
+Min: 2  Median: 14.4042  Max: 5473101
+Percentiles: P50: 14.40 P75: 28.66 P99: 70.36 P99.9: 92.16 P99.99: 168.57
+------------------------------------------------------
+(       1,       2 ]       46   0.000%   0.000% 
+(       2,       3 ]     6080   0.036%   0.036% 
+(       3,       4 ]    29493   0.176%   0.212% 
+(       4,       6 ]   785244   4.675%   4.887% #
+(       6,      10 ]  4173058  24.844%  29.731% #####
+(      10,      15 ]  3865095  23.011%  52.742% #####
+(      15,      22 ]  2380733  14.174%  66.915% ###
+(      22,      34 ]  2447237  14.570%  81.485% ###
+(      34,      51 ]  2456686  14.626%  96.111% ###
+(      51,      76 ]   626572   3.730%  99.841% #
+(      76,     110 ]    20820   0.124%  99.965% 
+(     110,     170 ]     4295   0.026%  99.991% 
+(     170,     250 ]      645   0.004%  99.994% 
+(     250,     380 ]      147   0.001%  99.995% 
+(     380,     580 ]       67   0.000%  99.996% 
+(     580,     870 ]        7   0.000%  99.996% 
+(     870,    1300 ]       25   0.000%  99.996% 
+(    1300,    1900 ]       16   0.000%  99.996% 
+(    1900,    2900 ]       17   0.000%  99.996% 
+(    2900,    4400 ]       40   0.000%  99.996% 
+(    6600,    9900 ]       48   0.000%  99.997% 
+(    9900,   14000 ]       40   0.000%  99.997% 
+(   14000,   22000 ]       40   0.000%  99.997% 
+(   22000,   33000 ]        8   0.000%  99.997% 
+(   33000,   50000 ]      155   0.001%  99.998% 
+(   50000,   75000 ]      123   0.001%  99.999% 
+(   75000,  110000 ]       24   0.000%  99.999% 
+(  110000,  170000 ]       63   0.000%  99.999% 
+(  170000,  250000 ]       16   0.000%  99.999% 
+(  250000,  380000 ]       24   0.000% 100.000% 
+(  380000,  570000 ]       32   0.000% 100.000% 
+(  570000,  860000 ]        8   0.000% 100.000% 
+( 1200000, 1900000 ]       24   0.000% 100.000% 
+( 4300000, 6500000 ]        8   0.000% 100.000% 
+
+Microseconds per read:
+Count: 16796808 Average: 5.6170  StdDev: 51.10
+Min: 0  Median: 3.1041  Max: 124578
+Percentiles: P50: 3.10 P75: 7.39 P99: 23.74 P99.9: 33.53 P99.99: 49.26
+------------------------------------------------------
+[       0,       1 ]  1845055  10.985%  10.985% ##
+(       1,       2 ]  4074631  24.258%  35.243% #####
+(       2,       3 ]  2325183  13.843%  49.086% ###
+(       3,       4 ]  1474755   8.780%  57.866% ##
+(       4,       6 ]  1966135  11.705%  69.571% ##
+(       6,      10 ]  2629579  15.655%  85.227% ###
+(      10,      15 ]  1550677   9.232%  94.459% ##
+(      15,      22 ]   735879   4.381%  98.840% #
+(      22,      34 ]   185358   1.104%  99.943% 
+(      34,      51 ]     8776   0.052%  99.995% 
+(      51,      76 ]      583   0.003%  99.999% 
+(      76,     110 ]      104   0.001%  99.999% 
+(     110,     170 ]       55   0.000% 100.000% 
+(     170,     250 ]       16   0.000% 100.000% 
+(     250,     380 ]        3   0.000% 100.000% 
+(     580,     870 ]        2   0.000% 100.000% 
+(     870,    1300 ]        1   0.000% 100.000% 
+(    1900,    2900 ]        2   0.000% 100.000% 
+(    2900,    4400 ]        2   0.000% 100.000% 
+(    9900,   14000 ]        1   0.000% 100.000% 
+(   33000,   50000 ]        3   0.000% 100.000% 
+(   50000,   75000 ]        7   0.000% 100.000% 
+(  110000,  170000 ]        1   0.000% 100.000% 
+
+
+
+** Compaction Stats [default] **
+Level    Files   Size     Score Read(GB)  Rn(GB) Rnp1(GB) Write(GB) Wnew(GB) Moved(GB) W-Amp Rd(MB/s) Wr(MB/s) Comp(sec) CompMergeCPU(sec) Comp(cnt) Avg(sec) KeyIn KeyDrop Rblob(GB) Wblob(GB)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  L0     11/10  810.99 MB   0.3      0.0     0.0      0.0       2.6      2.6       0.0   1.0      0.0     59.6     44.64              6.07        36    1.240       0      0       0.0       0.0
+  L1      8/8   419.64 MB   0.0      2.7     1.8      0.9       2.3      1.4       0.0   1.3     78.0     66.4     34.86              4.04         5    6.973   1203K   176K       0.0       0.0
+  L2     17/0   952.23 MB   0.5      1.1     0.7      0.3       1.0      0.7       0.3   1.3     71.9     67.2     15.20              1.68         7    2.172    483K    31K       0.0       0.0
+ Sum     36/18   2.13 GB   0.0      3.7     2.5      1.2       5.9      4.7       0.3   2.3     40.3     63.3     94.70             11.80        48    1.973   1686K   207K       0.0       0.0
+ Int      0/0    0.00 KB   0.0      3.7     2.5      1.2       5.9      4.7       0.3   2.3     40.3     63.3     94.70             11.80        48    1.973   1686K   207K       0.0       0.0
+
+** Compaction Stats [default] **
+Priority    Files   Size     Score Read(GB)  Rn(GB) Rnp1(GB) Write(GB) Wnew(GB) Moved(GB) W-Amp Rd(MB/s) Wr(MB/s) Comp(sec) CompMergeCPU(sec) Comp(cnt) Avg(sec) KeyIn KeyDrop Rblob(GB) Wblob(GB)
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Low      0/0    0.00 KB   0.0      3.7     2.5      1.2       3.3      2.1       0.0   0.0     76.2     66.7     50.07              5.72        12    4.172   1686K   207K       0.0       0.0
+High      0/0    0.00 KB   0.0      0.0     0.0      0.0       2.6      2.6       0.0   0.0      0.0     59.6     44.64              6.07        36    1.240       0      0       0.0       0.0
+
+Blob file count: 0, total size: 0.0 GB, garbage size: 0.0 GB, space amp: 0.0
+
+Uptime(secs): 73.1 total, 73.0 interval
+Flush(GB): cumulative 2.597, interval 2.597
+AddFile(GB): cumulative 0.000, interval 0.000
+AddFile(Total Files): cumulative 0, interval 0
+AddFile(L0 Files): cumulative 0, interval 0
+AddFile(Keys): cumulative 0, interval 0
+Cumulative compaction: 5.86 GB write, 81.99 MB/s write, 3.72 GB read, 52.14 MB/s read, 94.7 seconds
+Interval compaction: 5.86 GB write, 82.11 MB/s write, 3.72 GB read, 52.22 MB/s read, 94.7 seconds
+Write Stall (count): cf-l0-file-count-limit-delays-with-ongoing-compaction: 0, cf-l0-file-count-limit-stops-with-ongoing-compaction: 0, l0-file-count-limit-delays: 0, l0-file-count-limit-stops: 0, memtable-limit-delays: 0, memtable-limit-stops: 3, pending-compaction-bytes-delays: 0, pending-compaction-bytes-stops: 0, total-delays: 0, total-stops: 3, interval: 3 total count
+Block cache LRUCache@0x2ada000#47506 capacity: 32.00 MB usage: 0.09 KB table_size: 1024 occupancy: 1 collections: 1 last_copies: 0 last_secs: 0.000143 secs_since: 73
+Block cache entry stats(count,size,portion): Misc(1,0.00 KB,0%)
+
+** File Read Latency Histogram By Level [default] **
+** Level 0 read latency histogram (micros):
+Count: 788608 Average: 2.6435  StdDev: 3.04
+Min: 0  Median: 2.0384  Max: 2407
+Percentiles: P50: 2.04 P75: 2.71 P99: 4.19 P99.9: 4.80 P99.99: 4.86
+------------------------------------------------------
+[       0,       1 ]    60862   7.718%   7.718% ##
+(       1,       2 ]   322181  40.854%  48.572% ########
+(       2,       3 ]   293463  37.213%  85.785% #######
+(       3,       4 ]   102042  12.940%  98.724% ###
+(       4,       6 ]    23205   2.943% 101.667% #
+(       6,      10 ]     1336   0.169% 101.836% 
+(      10,      15 ]       52   0.007% 101.843% 
+(      15,      22 ]       37   0.005% 101.848% 
+(      22,      34 ]       17   0.002% 101.850% 
+(      34,      51 ]       13   0.002% 101.851% 
+(      76,     110 ]       26   0.003% 101.855% 
+(     110,     170 ]        7   0.001% 101.856% 
+(     170,     250 ]        2   0.000% 101.856% 
+(     250,     380 ]        1   0.000% 101.856% 
+(     380,     580 ]        1   0.000% 101.856% 
+(    1900,    2900 ]        1   0.000% 101.856% 
+
+** Level 1 read latency histogram (micros):
+Count: 431256 Average: 2.4284  StdDev: 1.69
+Min: 0  Median: 1.7628  Max: 320
+Percentiles: P50: 1.76 P75: 2.51 P99: 4.49 P99.9: 5.14 P99.99: 5.20
+------------------------------------------------------
+[       0,       1 ]    59654  13.833%  13.833% ###
+(       1,       2 ]   204483  47.416%  61.248% #########
+(       2,       3 ]   115159  26.703%  87.951% #####
+(       3,       4 ]    44703  10.366%  98.317% ##
+(       4,       6 ]    12010   2.785% 101.102% #
+(       6,      10 ]      656   0.152% 101.254% 
+(      10,      15 ]       39   0.009% 101.263% 
+(      15,      22 ]       24   0.006% 101.269% 
+(      22,      34 ]       21   0.005% 101.274% 
+(      34,      51 ]        6   0.001% 101.275% 
+(      51,      76 ]        2   0.000% 101.276% 
+(      76,     110 ]        8   0.002% 101.277% 
+(     110,     170 ]       14   0.003% 101.281% 
+(     170,     250 ]        7   0.002% 101.282% 
+(     250,     380 ]        2   0.000% 101.283% 
+
+** Level 2 read latency histogram (micros):
+Count: 85609 Average: 3.0273  StdDev: 2.33
+Min: 0  Median: 2.4217  Max: 332
+Percentiles: P50: 2.42 P75: 3.06 P99: 5.02 P99.9: 5.30 P99.99: 5.33
+------------------------------------------------------
+[       0,       1 ]     2891   3.377%   3.377% #
+(       1,       2 ]    25100  29.319%  32.696% ######
+(       2,       3 ]    35129  41.034%  73.731% ########
+(       3,       4 ]    18804  21.965%  95.696% ####
+(       4,       6 ]     5536   6.467% 102.162% #
+(       6,      10 ]      255   0.298% 102.460% 
+(      10,      15 ]        6   0.007% 102.467% 
+(      15,      22 ]        7   0.008% 102.475% 
+(      22,      34 ]        3   0.004% 102.479% 
+(      51,      76 ]        3   0.004% 102.482% 
+(      76,     110 ]       13   0.015% 102.497% 
+(     250,     380 ]        3   0.004% 102.501% 
+
+
+** DB Stats **
+Uptime(secs): 73.1 total, 73.0 interval
+Cumulative writes: 16M writes, 16M keys, 5749K commit groups, 2.9 writes per commit group, ingest: 36.25 GB, 507.57 MB/s
+Cumulative WAL: 16M writes, 0 syncs, 16796936.00 writes per sync, written: 36.25 GB, 507.57 MB/s
+Cumulative stall: 00:00:0.974 H:M:S, 1.3 percent
+Interval writes: 16M writes, 16M keys, 5749K commit groups, 2.9 writes per commit group, ingest: 37121.51 MB, 508.29 MB/s
+Interval WAL: 16M writes, 0 syncs, 16796936.00 writes per sync, written: 36.25 GB, 508.29 MB/s
+Interval stall: 00:00:0.974 H:M:S, 1.3 percent
+Write Stall (count): write-buffer-manager-limit-stops: 0, 
+STATISTICS:
+rocksdb.block.cache.miss COUNT : 1350338
+rocksdb.block.cache.hit COUNT : 1958343
+rocksdb.block.cache.add COUNT : 873872
+rocksdb.block.cache.add.failures COUNT : 0
+rocksdb.block.cache.index.miss COUNT : 0
+rocksdb.block.cache.index.hit COUNT : 0
+rocksdb.block.cache.index.add COUNT : 0
+rocksdb.block.cache.index.bytes.insert COUNT : 0
+rocksdb.block.cache.filter.miss COUNT : 0
+rocksdb.block.cache.filter.hit COUNT : 0
+rocksdb.block.cache.filter.add COUNT : 0
+rocksdb.block.cache.filter.bytes.insert COUNT : 0
+rocksdb.block.cache.data.miss COUNT : 1350338
+rocksdb.block.cache.data.hit COUNT : 1958343
+rocksdb.block.cache.data.add COUNT : 873872
+rocksdb.block.cache.data.bytes.insert COUNT : 8614270224
+rocksdb.block.cache.bytes.read COUNT : 18976191120
+rocksdb.block.cache.bytes.write COUNT : 8614270224
+rocksdb.bloom.filter.useful COUNT : 52008185
+rocksdb.bloom.filter.full.positive COUNT : 2773523
+rocksdb.bloom.filter.full.true.positive COUNT : 2267956
+rocksdb.persistent.cache.hit COUNT : 0
+rocksdb.persistent.cache.miss COUNT : 0
+rocksdb.sim.block.cache.hit COUNT : 0
+rocksdb.sim.block.cache.miss COUNT : 0
+rocksdb.memtable.hit COUNT : 7969081
+rocksdb.memtable.miss COUNT : 8827727
+rocksdb.l0.hit COUNT : 1500150
+rocksdb.l1.hit COUNT : 390787
+rocksdb.l2andup.hit COUNT : 377019
+rocksdb.compaction.key.drop.new COUNT : 232844
+rocksdb.compaction.key.drop.obsolete COUNT : 0
+rocksdb.compaction.key.drop.range_del COUNT : 0
+rocksdb.compaction.key.drop.user COUNT : 0
+rocksdb.compaction.range_del.drop.obsolete COUNT : 0
+rocksdb.compaction.optimized.del.drop.obsolete COUNT : 0
+rocksdb.compaction.cancelled COUNT : 0
+rocksdb.number.keys.written COUNT : 16796936
+rocksdb.number.keys.read COUNT : 16796808
+rocksdb.number.keys.updated COUNT : 0
+rocksdb.bytes.written COUNT : 38924721284
+rocksdb.bytes.read COUNT : 23244556736
+rocksdb.number.db.seek COUNT : 0
+rocksdb.number.db.next COUNT : 0
+rocksdb.number.db.prev COUNT : 0
+rocksdb.number.db.seek.found COUNT : 0
+rocksdb.number.db.next.found COUNT : 0
+rocksdb.number.db.prev.found COUNT : 0
+rocksdb.db.iter.bytes.read COUNT : 0
+rocksdb.no.file.opens COUNT : 89
+rocksdb.no.file.errors COUNT : 0
+rocksdb.stall.micros COUNT : 973779
+rocksdb.db.mutex.wait.micros COUNT : 0
+rocksdb.number.multiget.get COUNT : 0
+rocksdb.number.multiget.keys.read COUNT : 0
+rocksdb.number.multiget.bytes.read COUNT : 0
+rocksdb.number.merge.failures COUNT : 0
+rocksdb.bloom.filter.prefix.checked COUNT : 0
+rocksdb.bloom.filter.prefix.useful COUNT : 0
+rocksdb.number.reseeks.iteration COUNT : 0
+rocksdb.getupdatessince.calls COUNT : 0
+rocksdb.wal.synced COUNT : 0
+rocksdb.wal.bytes COUNT : 38924721284
+rocksdb.write.self COUNT : 5749003
+rocksdb.write.other COUNT : 11047933
+rocksdb.write.wal COUNT : 16796936
+rocksdb.compact.read.bytes COUNT : 4183342129
+rocksdb.compact.write.bytes COUNT : 3742136619
+rocksdb.flush.write.bytes COUNT : 2788133413
+rocksdb.compact.read.marked.bytes COUNT : 0
+rocksdb.compact.read.periodic.bytes COUNT : 0
+rocksdb.compact.read.ttl.bytes COUNT : 0
+rocksdb.compact.write.marked.bytes COUNT : 0
+rocksdb.compact.write.periodic.bytes COUNT : 0
+rocksdb.compact.write.ttl.bytes COUNT : 0
+rocksdb.number.direct.load.table.properties COUNT : 0
+rocksdb.number.superversion_acquires COUNT : 711
+rocksdb.number.superversion_releases COUNT : 83
+rocksdb.number.superversion_cleanups COUNT : 14
+rocksdb.number.block.compressed COUNT : 0
+rocksdb.number.block.decompressed COUNT : 0
+rocksdb.number.block.not_compressed COUNT : 0
+rocksdb.merge.operation.time.nanos COUNT : 0
+rocksdb.filter.operation.time.nanos COUNT : 0
+rocksdb.row.cache.hit COUNT : 0
+rocksdb.row.cache.miss COUNT : 0
+rocksdb.read.amp.estimate.useful.bytes COUNT : 0
+rocksdb.read.amp.total.read.bytes COUNT : 0
+rocksdb.number.rate_limiter.drains COUNT : 0
+rocksdb.number.iter.skip COUNT : 0
+rocksdb.blobdb.num.put COUNT : 0
+rocksdb.blobdb.num.write COUNT : 0
+rocksdb.blobdb.num.get COUNT : 0
+rocksdb.blobdb.num.multiget COUNT : 0
+rocksdb.blobdb.num.seek COUNT : 0
+rocksdb.blobdb.num.next COUNT : 0
+rocksdb.blobdb.num.prev COUNT : 0
+rocksdb.blobdb.num.keys.written COUNT : 0
+rocksdb.blobdb.num.keys.read COUNT : 0
+rocksdb.blobdb.bytes.written COUNT : 0
+rocksdb.blobdb.bytes.read COUNT : 0
+rocksdb.blobdb.write.inlined COUNT : 0
+rocksdb.blobdb.write.inlined.ttl COUNT : 0
+rocksdb.blobdb.write.blob COUNT : 0
+rocksdb.blobdb.write.blob.ttl COUNT : 0
+rocksdb.blobdb.blob.file.bytes.written COUNT : 0
+rocksdb.blobdb.blob.file.bytes.read COUNT : 0
+rocksdb.blobdb.blob.file.synced COUNT : 0
+rocksdb.blobdb.blob.index.expired.count COUNT : 0
+rocksdb.blobdb.blob.index.expired.size COUNT : 0
+rocksdb.blobdb.blob.index.evicted.count COUNT : 0
+rocksdb.blobdb.blob.index.evicted.size COUNT : 0
+rocksdb.blobdb.gc.num.files COUNT : 0
+rocksdb.blobdb.gc.num.new.files COUNT : 0
+rocksdb.blobdb.gc.failures COUNT : 0
+rocksdb.blobdb.gc.num.keys.relocated COUNT : 0
+rocksdb.blobdb.gc.bytes.relocated COUNT : 0
+rocksdb.blobdb.fifo.num.files.evicted COUNT : 0
+rocksdb.blobdb.fifo.num.keys.evicted COUNT : 0
+rocksdb.blobdb.fifo.bytes.evicted COUNT : 0
+rocksdb.txn.overhead.mutex.prepare COUNT : 0
+rocksdb.txn.overhead.mutex.old.commit.map COUNT : 0
+rocksdb.txn.overhead.duplicate.key COUNT : 0
+rocksdb.txn.overhead.mutex.snapshot COUNT : 0
+rocksdb.txn.get.tryagain COUNT : 0
+rocksdb.number.multiget.keys.found COUNT : 0
+rocksdb.num.iterator.created COUNT : 0
+rocksdb.num.iterator.deleted COUNT : 0
+rocksdb.block.cache.compression.dict.miss COUNT : 0
+rocksdb.block.cache.compression.dict.hit COUNT : 0
+rocksdb.block.cache.compression.dict.add COUNT : 0
+rocksdb.block.cache.compression.dict.bytes.insert COUNT : 0
+rocksdb.block.cache.add.redundant COUNT : 560845
+rocksdb.block.cache.index.add.redundant COUNT : 0
+rocksdb.block.cache.filter.add.redundant COUNT : 0
+rocksdb.block.cache.data.add.redundant COUNT : 560845
+rocksdb.block.cache.compression.dict.add.redundant COUNT : 0
+rocksdb.files.marked.trash COUNT : 0
+rocksdb.files.deleted.immediately COUNT : 53
+rocksdb.error.handler.bg.errro.count COUNT : 0
+rocksdb.error.handler.bg.io.errro.count COUNT : 0
+rocksdb.error.handler.bg.retryable.io.errro.count COUNT : 0
+rocksdb.error.handler.autoresume.count COUNT : 0
+rocksdb.error.handler.autoresume.retry.total.count COUNT : 0
+rocksdb.error.handler.autoresume.success.count COUNT : 0
+rocksdb.memtable.payload.bytes.at.flush COUNT : 37257901960
+rocksdb.memtable.garbage.bytes.at.flush COUNT : 34477225376
+rocksdb.secondary.cache.hits COUNT : 0
+rocksdb.verify_checksum.read.bytes COUNT : 0
+rocksdb.backup.read.bytes COUNT : 0
+rocksdb.backup.write.bytes COUNT : 0
+rocksdb.remote.compact.read.bytes COUNT : 0
+rocksdb.remote.compact.write.bytes COUNT : 0
+rocksdb.hot.file.read.bytes COUNT : 0
+rocksdb.warm.file.read.bytes COUNT : 0
+rocksdb.cold.file.read.bytes COUNT : 0
+rocksdb.hot.file.read.count COUNT : 0
+rocksdb.warm.file.read.count COUNT : 0
+rocksdb.cold.file.read.count COUNT : 0
+rocksdb.last.level.read.bytes COUNT : 0
+rocksdb.last.level.read.count COUNT : 0
+rocksdb.non.last.level.read.bytes COUNT : 11971000328
+rocksdb.non.last.level.read.count COUNT : 1350783
+rocksdb.block.checksum.compute.count COUNT : 1350605
+rocksdb.multiget.coroutine.count COUNT : 0
+rocksdb.blobdb.cache.miss COUNT : 0
+rocksdb.blobdb.cache.hit COUNT : 0
+rocksdb.blobdb.cache.add COUNT : 0
+rocksdb.blobdb.cache.add.failures COUNT : 0
+rocksdb.blobdb.cache.bytes.read COUNT : 0
+rocksdb.blobdb.cache.bytes.write COUNT : 0
+rocksdb.read.async.micros COUNT : 0
+rocksdb.async.read.error.count COUNT : 0
+rocksdb.secondary.cache.filter.hits COUNT : 0
+rocksdb.secondary.cache.index.hits COUNT : 0
+rocksdb.secondary.cache.data.hits COUNT : 0
+rocksdb.table.open.prefetch.tail.miss COUNT : 0
+rocksdb.table.open.prefetch.tail.hit COUNT : 0
+rocksdb.timestamp.filter.table.checked COUNT : 0
+rocksdb.timestamp.filter.table.filtered COUNT : 0
+rocksdb.db.get.micros P50 : 2.701417 P95 : 14.785060 P99 : 21.796011 P100 : 124574.000000 COUNT : 16796808 SUM : 85731136
+rocksdb.db.write.micros P50 : 13.785530 P95 : 48.407698 P99 : 67.960956 P100 : 5473093.000000 COUNT : 16796936 SUM : 467280282
+rocksdb.compaction.times.micros P50 : 3460000.000000 P95 : 11480000.000000 P99 : 11516168.000000 P100 : 11516168.000000 COUNT : 12 SUM : 50066578
+rocksdb.compaction.times.cpu_micros P50 : 380000.000000 P95 : 1327768.000000 P99 : 1327768.000000 P100 : 1327768.000000 COUNT : 12 SUM : 5724307
+rocksdb.subcompaction.setup.times.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.table.sync.micros P50 : 973333.333333 P95 : 2500000.000000 P99 : 2962775.000000 P100 : 2962775.000000 COUNT : 36 SUM : 37487258
+rocksdb.compaction.outfile.sync.micros P50 : 754545.454545 P95 : 1690000.000000 P99 : 2340000.000000 P100 : 2387473.000000 COUNT : 56 SUM : 43838847
+rocksdb.wal.file.sync.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.manifest.file.sync.micros P50 : 29857.142857 P95 : 138000.000000 P99 : 6687283.000000 P100 : 6687283.000000 COUNT : 52 SUM : 8765779
+rocksdb.table.open.io.micros P50 : 192.222222 P95 : 531.666667 P99 : 34870.000000 P100 : 44379.000000 COUNT : 89 SUM : 65638
+rocksdb.db.multiget.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.read.block.compaction.micros P50 : 2.129525 P95 : 3.773672 P99 : 5.544410 P100 : 164.000000 COUNT : 476466 SUM : 1286317
+rocksdb.read.block.get.micros P50 : 3.243255 P95 : 5.656317 P99 : 7.364289 P100 : 124538.000000 COUNT : 874050 SUM : 3576707
+rocksdb.write.raw.block.micros P50 : 0.517919 P95 : 0.984046 P99 : 6.860067 P100 : 184427.000000 COUNT : 752242 SUM : 4416213
+rocksdb.numfiles.in.singlecompaction P50 : 2.750000 P95 : 16.750000 P99 : 18.000000 P100 : 18.000000 COUNT : 15 SUM : 76
+rocksdb.db.seek.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.db.write.stall P50 : 315000.000000 P95 : 455155.000000 P99 : 455155.000000 P100 : 455155.000000 COUNT : 3 SUM : 973779
+rocksdb.sst.read.micros P50 : 1.993625 P95 : 3.873671 P99 : 5.496032 P100 : 2407.000000 COUNT : 1350783 SUM : 3542657
+rocksdb.num.subcompactions.scheduled P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.bytes.per.read P50 : 59.990781 P95 : 8192.000000 P99 : 8192.000000 P100 : 8192.000000 COUNT : 16796808 SUM : 23244556736
+rocksdb.bytes.per.write P50 : 1211.107381 P95 : 32280.338453 P99 : 48527.224712 P100 : 65708.000000 COUNT : 5749003 SUM : 38924721284
+rocksdb.bytes.per.multiget P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.bytes.compressed P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.bytes.decompressed P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.compression.times.nanos P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.decompression.times.nanos P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.read.num.merge_operands P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.blobdb.key.size P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.blobdb.value.size P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.blobdb.write.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.blobdb.get.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.blobdb.multiget.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.blobdb.seek.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.blobdb.next.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.blobdb.prev.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.blobdb.blob.file.write.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.blobdb.blob.file.read.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.blobdb.blob.file.sync.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.blobdb.compression.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.blobdb.decompression.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.db.flush.micros P50 : 1095384.615385 P95 : 2500000.000000 P99 : 3145916.000000 P100 : 3145916.000000 COUNT : 36 SUM : 44636306
+rocksdb.sst.batch.size P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.num.index.and.filter.blocks.read.per.level P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.num.sst.read.per.level P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.error.handler.autoresume.retry.count P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.async.read.bytes P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.poll.wait.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.prefetched.bytes.discarded P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 55 SUM : 0
+rocksdb.multiget.io.batch.size P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.num.level.read.per.multiget P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.async.prefetch.abort.micros P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+rocksdb.table.open.prefetch.tail.read.bytes P50 : 0.000000 P95 : 0.000000 P99 : 0.000000 P100 : 0.000000 COUNT : 0 SUM : 0
+
+Done Single Workload

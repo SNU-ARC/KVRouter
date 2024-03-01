@@ -1,0 +1,1284 @@
+diff --git a/rocksdb/1.txt b/rocksdb/1.txt
+index db59864..e69de29 100644
+--- a/rocksdb/1.txt
++++ b/rocksdb/1.txt
+@@ -1,660 +0,0 @@
+-diff --git a/tools/db_bench_tool.cc b/tools/db_bench_tool.cc
+-index 759f634b2..0698351d5 100644
+---- a/tools/db_bench_tool.cc
+-+++ b/tools/db_bench_tool.cc
+-@@ -245,6 +245,24 @@ DEFINE_string(
+-     "Rate limit can be specified through --backup_rate_limit\n"
+-     "\trestore -- Restore the DB from the latest backup available, rate limit can be specified through --restore_rate_limit\n");
+- 
+-+#define MAX_THREAD_NUM (24)
+-+bool fill_done = false;
+-+bool warm_done[MAX_THREAD_NUM] = 
+-+    {true, true, true, true,
+-+    true, true, true, true,
+-+    true, true, true, true,
+-+    true, true, true, true,
+-+    true, true, true, true,
+-+    true, true, true, true};
+-+int du_setup_for_test = 0;
+-+DEFINE_int64(ycsb_val, -1, "Tail & 1s Ops Print");
+-+DEFINE_int64(tail_latency, -1, "Tail & 1s Ops Print");
+-+DEFINE_int64(latest_case, -1, "Latest Case insert latest when run ycsbA");
+-+DEFINE_int64(write_porp, -1, "Write proportion ");
+-+DEFINE_bool(report_ops_latency, false,"");
+-+DEFINE_bool(YCSB_uniform_distribution, false, "Uniform key distribution for YCSB");
+-+DEFINE_bool(ycsb, false, "ycsb");
+-+
+- DEFINE_int64(num, 1000000, "Number of key/values to place in database");
+- 
+- DEFINE_int64(numdistinct, 1000,
+-@@ -1731,6 +1749,13 @@ DEFINE_bool(build_info, false,
+- DEFINE_bool(track_and_verify_wals_in_manifest, false,
+-             "If true, enable WAL tracking in the MANIFEST");
+- 
+-+struct Operation {
+-+  char operation_type;
+-+  uint64_t key;
+-+  uint64_t length;
+-+};
+-+std::vector<Operation> ycsb_trace;
+-+uint64_t ycsb_trace_count;
+- namespace ROCKSDB_NAMESPACE {
+- namespace {
+- static Status CreateMemTableRepFactory(
+-@@ -2116,6 +2141,14 @@ class Stats {
+-   uint64_t last_report_done_;
+-   uint64_t next_report_;
+-   uint64_t bytes_;
+-+  uint64_t rd_count_;
+-+  uint64_t wr_count_;
+-+  uint64_t rd_start_;
+-+  uint64_t wr_start_;
+-+  double last_op_micros_;
+-+  std::vector<uint64_t> rd_latency;
+-+  std::vector<uint64_t> wr_latency;
+-+  std::vector<uint64_t> scan_latency;
+-   uint64_t last_op_finish_;
+-   uint64_t last_report_finish_;
+-   std::unordered_map<OperationType, std::shared_ptr<HistogramImpl>,
+-@@ -2129,9 +2162,25 @@ class Stats {
+-  public:
+-   Stats() : clock_(FLAGS_env->GetSystemClock().get()) { Start(-1); }
+- 
+-+  void DUReportLatency();
+-   void SetReporterAgent(ReporterAgent* reporter_agent) {
+-     reporter_agent_ = reporter_agent;
+-   }
+-+  void push_scan(double value)
+-+  {
+-+	scan_latency.push_back(value);
+-+  }
+-+  void push_wr(double value)
+-+  {
+-+	wr_latency.push_back(value);
+-+  }
+-+  void push_rd(double value)
+-+  {
+-+	rd_latency.push_back(value);
+-+  }
+-+  double LastOperationMicros() {
+-+    return last_op_micros_;
+-+  }
+- 
+-   void Start(int id) {
+-     id_ = id;
+-@@ -2166,6 +2215,15 @@ class Stats {
+-     done_ += other.done_;
+-     bytes_ += other.bytes_;
+-     seconds_ += other.seconds_;
+-+    if (FLAGS_tail_latency == 1)
+-+    {
+-+        printf("RD Latency Insert Done ! Size %d \n", (int)rd_latency.size());
+-+        rd_latency.insert(rd_latency.end(), other.rd_latency.begin(), other.rd_latency.end());
+-+        printf("WR Latency Insert Done ! Size %d \n", (int)wr_latency.size());
+-+        wr_latency.insert(wr_latency.end(), other.wr_latency.begin(), other.wr_latency.end());
+-+        printf("Scan Latency Insert Done ! Size %d \n", (int)scan_latency.size());
+-+        scan_latency.insert(scan_latency.end(), other.scan_latency.begin(), other.scan_latency.end());
+-+    }
+-     if (other.start_ < start_) start_ = other.start_;
+-     if (other.finish_ > finish_) finish_ = other.finish_;
+- 
+-@@ -2217,12 +2275,84 @@ class Stats {
+- 
+-   uint64_t GetSineInterval() { return sine_interval_; }
+- 
+--  uint64_t GetStart() { return start_; }
+- 
+-   void ResetLastOpTime() {
+-     // Set to now to avoid latency from calls to SleepForMicroseconds.
+-     last_op_finish_ = clock_->NowMicros();
+-   }
+-+  uint64_t GetStart() {
+-+    return start_;
+-+  }
+-+
+-+  void store_scan_latency(uint64_t value)
+-+  {
+-+      if (FLAGS_tail_latency == 1)
+-+      {
+-+          // Stadt
+-+          if (value == 0)
+-+          {
+-+              wr_start_ = FLAGS_env->NowMicros();
+-+          }
+-+          // End
+-+          else
+-+          {
+-+              uint64_t wr_gap = FLAGS_env->NowMicros() - wr_start_;
+-+              scan_latency.push_back(wr_gap);
+-+          }
+-+          scan_latency.push_back(value);
+-+      }
+-+  }
+-+  void store_wr_latency(uint64_t value)
+-+  {
+-+      if (FLAGS_tail_latency == 1)
+-+      {
+-+          // Stadt
+-+          if (value == 0)
+-+          {
+-+              wr_start_ = FLAGS_env->NowMicros();
+-+          }
+-+          // End
+-+          else
+-+          {
+-+              uint64_t wr_gap = FLAGS_env->NowMicros() - wr_start_;
+-+              wr_latency.push_back(wr_gap);
+-+          }
+-+          wr_latency.push_back(value);
+-+      }
+-+  }
+-+
+-+  void store_rd_latency(int value)
+-+  {
+-+      if (FLAGS_tail_latency == 1)
+-+      {
+-+          // Stadt
+-+          if (value == 0)
+-+          {
+-+              rd_start_ = FLAGS_env->NowMicros();
+-+          }
+-+          // End
+-+          else
+-+          {
+-+              uint64_t rd_gap = FLAGS_env->NowMicros() - rd_start_;
+-+              rd_latency.push_back(rd_gap);
+-+          }
+-+      }
+-+  }
+-+
+-+  void sort_latency()
+-+  {
+-+      if (FLAGS_tail_latency == 1)
+-+      {
+-+          printf("RD Latency Sort Start\n");
+-+          sort(rd_latency.begin(), rd_latency.end());
+-+          printf("WR Latency Sort Start\n");
+-+          sort(wr_latency.begin(), wr_latency.end());
+-+          printf("SCAN Latency Sort Start\n");
+-+          sort(scan_latency.begin(), scan_latency.end());
+-+      }
+-+  }
+-+
+-+
+- 
+-   void FinishedOps(DBWithColumnFamilies* db_with_cfh, DB* db, int64_t num_ops,
+-                    enum OperationType op_type = kOthers) {
+-@@ -2613,10 +2743,98 @@ class Duration {
+-     ops_per_stage_ = (ops_per_stage > 0) ? ops_per_stage : max_ops;
+-     ops_ = 0;
+-     start_at_ = FLAGS_env->NowMicros();
+-+  
+-+    du_start_ops_ = -1;
+-+    du_ops_done_ = 0;
+-+    du_timer_ = 0;
+-+  }
+-+  void DU_SET(uint64_t max_seconds, int64_t max_ops) 
+-+  {
+-+    max_seconds_ = max_seconds;
+-+    max_ops_= max_ops;
+-+    ops_per_stage_ = max_ops;
+-+    ops_ = 0;
+-+    start_at_ = FLAGS_env->NowMicros();
+-+    
+-+    du_start_ops_ = -1;
+-+    du_ops_done_ = 0;
+-+    du_timer_ = 0;
+-+    
+-+    printf("DU SET start %lld max %lld max_ops %lld\n", (long long int)start_at_, (long long int)max_seconds, (long long int)max_ops);
+-   }
+- 
+-   int64_t GetStage() { return std::min(ops_, max_ops_ - 1) / ops_per_stage_; }
+- 
+-+  void Reset()
+-+  {
+-+      ops_ = 0;
+-+      start_at_ = FLAGS_env->NowMicros();
+-+    
+-+      du_start_ops_ = -1;
+-+      du_ops_done_ = 0;
+-+      du_timer_ = 0;
+-+  }
+-+
+-+  bool Done(int64_t increment, long key_done, int tid) {
+-+    if (increment <= 0) increment = 1;    // avoid Done(0) and infinite loops
+-+    ops_ += increment;
+-+    {
+-+        uint64_t du_now = (FLAGS_env->NowMicros() - start_at_) / 1000000;
+-+        if (du_start_ops_ == -1)
+-+        {
+-+            du_start_ops_ = key_done;
+-+        }
+-+
+-+        if (FLAGS_tail_latency == 1)
+-+        {
+-+            if (du_timer_ != du_now)
+-+            {
+-+                if (tid){}
+-+                long interval_done = key_done - du_ops_done_;
+-+                printf("[%4d] [%lld:%lld] interval %ld done %ld ops_done %ld Timer %lld fill_done %d warm_done %d OPS : %f \n",
+-+                        tid, (long long int)max_seconds_, (long long int)du_now, interval_done, key_done, du_ops_done_, (long long int)du_now, fill_done, warm_done[tid], (float)(key_done - du_start_ops_) / du_now);
+-+                du_ops_done_ = key_done;
+-+                du_timer_ = du_now;
+-+            }
+-+        }
+-+        else
+-+        {
+-+            if ((du_timer_ != du_now) && (du_now % 2 == 0))
+-+            {
+-+                if (tid){}
+-+                long interval_done = key_done - du_ops_done_;
+-+                printf("[%4d] [%lld:%lld] interval %ld done %ld ops_done %ld Timer %lld fill_done %d warm_done %d OPS : %f \n",
+-+                        tid, (long long int)max_seconds_, (long long int)du_now, interval_done, key_done, du_ops_done_, (long long int)du_now, fill_done, warm_done[tid], (float)(key_done - du_start_ops_) / du_now);
+-+                du_ops_done_ = key_done;
+-+                du_timer_ = du_now;
+-+            }
+-+        }
+-+    }
+-+
+-+
+-+    if (max_seconds_) {
+-+      // Recheck every appx 1000 ops (exact iff increment is factor of 1000)
+-+      auto granularity = FLAGS_ops_between_duration_checks;
+-+      if ((ops_ / granularity) != ((ops_ - increment) / granularity)) {
+-+        uint64_t now = FLAGS_env->NowMicros();
+-+        //printf("max_sec %lld now %lld start %lld gap %lld\n", 
+-+        //        max_seconds_, now, start_at_, (now-start_at_)/1000000);
+-+        bool ret_val = ((now - start_at_) / 1000000) >= max_seconds_;
+-+        if (ret_val)
+-+        {
+-+            printf("Why Done Here? now %lld start %lld gap %lld max %lld\n", (long long int) now, (long long int) start_at_, (long long int) (now-start_at_) / 1000000 , (long long int) max_seconds_);
+-+        }
+-+
+-+        return ((now - start_at_) / 1000000) >= max_seconds_;
+-+      } else {
+-+          
+-+        return false;
+-+      }
+-+    } else {
+-+      return ops_ > max_ops_;
+-+    }
+-+  }
+-+
+-   bool Done(int64_t increment) {
+-     if (increment <= 0) increment = 1;  // avoid Done(0) and infinite loops
+-     ops_ += increment;
+-@@ -2641,6 +2859,10 @@ class Duration {
+-   int64_t ops_per_stage_;
+-   int64_t ops_;
+-   uint64_t start_at_;
+-+
+-+  long du_start_ops_;
+-+  long du_ops_done_;
+-+  uint64_t du_timer_;
+- };
+- 
+- class Benchmark {
+-@@ -3153,6 +3375,56 @@ class Benchmark {
+-     }
+-   }
+- 
+-+  void LoadTrace(const std::string& trace_name) {
+-+    FILE* trace_file = fopen(trace_name.c_str(), "r");
+-+    if (trace_file == NULL) {
+-+      fprintf(stderr, "Error while opening trace file %s\n", trace_name.c_str());
+-+      exit(1);
+-+    }
+-+    // preparing trace
+-+    fprintf(stdout, "Reading trace\n");
+-+    size_t bufsize = 100;
+-+    char* buf = new char[100];
+-+    if (getline(&buf, &bufsize, trace_file) == -1)
+-+	{
+-+		printf("Read Error...%s\n", __func__);
+-+	}
+-+    //int status = getline(&buf, &bufsize, trace_file);
+-+    //assert(status > 1);
+-+    uint64_t count;
+-+    sscanf(buf, "%lu\n", &count);
+-+    ycsb_trace.clear();
+-+    ycsb_trace.reserve(count);
+-+    ycsb_trace_count = count;
+-+    //ycsb_trace_count = count * 2;
+-+    
+-+    for (uint64_t i = 0; i < count/20; i++) 
+-+    {
+-+        if (getline(&buf, &bufsize, trace_file) == -1)
+-+        {
+-+            printf("Read Error...%s\n", __func__);
+-+            break;
+-+        }
+-+        //status = getline(&buf, &bufsize, trace_file);
+-+        //printf("get %d %s\n", i, buf);
+-+        //assert(status > 1);
+-+        Operation operation;
+-+        sscanf(buf, "%c %lu %lu\n", &operation.operation_type, &operation.key, &operation.length);
+-+        ycsb_trace.emplace_back(operation);
+-+    }
+-+    
+-+    delete[] buf;
+-+    fclose(trace_file);
+-+    fprintf(stdout, "Finished reading trace only %ld\n", (long int) count / 10 );
+-+    // clearing performance counters
+-+    /*
+-+    for (auto& operations : ycsb_histogram_) {
+-+      operations.second.Clear();
+-+    }
+-+	*/
+-+  }
+-+
+-+
+-   Slice AllocateKey(std::unique_ptr<const char[]>* key_guard) {
+-     char* data = new char[key_size_];
+-     const char* const_data = data;
+-@@ -3387,6 +3659,171 @@ class Benchmark {
+-         fresh_db = true;
+-         entries_per_batch_ = 1000;
+-         method = &Benchmark::WriteSeq;
+-+      } else if (name == Slice("trace_sw")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_SW";
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        //num_threads = 1;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_rw")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_RW";
+-+        FLAGS_ycsb = true;
+-+        //num_threads = 1;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_sr")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_SR";
+-+        FLAGS_ycsb = true;
+-+        //num_threads = 1;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_rr")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_RR";
+-+        FLAGS_ycsb = true;
+-+        //num_threads = 1;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_fill")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_FILL";
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        num_threads = 1;
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_fill_rw")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_FILL";
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        num_threads = 1;
+-+        method = &Benchmark::RunTrace;
+-+        auto rng = std::default_random_engine {};
+-+        std::shuffle(std::begin(ycsb_trace), std::end(ycsb_trace), rng);
+-+       
+-+        ycsb_trace.resize(ycsb_trace.size() / 1);
+-+        printf("YCSB trace count %ld \n", ycsb_trace.size()); 
+-+        
+-+      } else if (name == Slice("trace_wr")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_A";
+-+        du_setup_for_test = 1;
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        du_setup_for_test = 0;
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_a")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_A";
+-+        if (FLAGS_ycsb_val == 90)
+-+        {
+-+            trace_name = "/home2/du/RocksDB_Inc/trace_A_90";
+-+        }
+-+        else if (FLAGS_ycsb_val == 80)
+-+        {
+-+            trace_name = "/home2/du/RocksDB_Inc/trace_A_80";
+-+        }
+-+        else if (FLAGS_ycsb_val == 70)
+-+        {
+-+            trace_name = "/home2/du/RocksDB_Inc/trace_A_70";
+-+        }
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_b")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_B";
+-+	if (FLAGS_ycsb_val == 90)
+-+	{
+-+		trace_name = "/home2/du/RocksDB_Inc/trace_B_90";
+-+	}
+-+	else if (FLAGS_ycsb_val == 80)
+-+	{
+-+		trace_name = "/home2/du/RocksDB_Inc/trace_B_80";
+-+	}
+-+	else if (FLAGS_ycsb_val == 70)
+-+	{
+-+		trace_name = "/home2/du/RocksDB_Inc/trace_B_70";
+-+	}
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_c")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_C_large";
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_d")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_D";
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_e")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_E_large";
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_f")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_F_large";
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_mix_warm")) {
+-+	      std::string trace_name = "/home2/du/RocksDB_Inc/trace_mix_warm";
+-+	      FLAGS_ycsb = true;
+-+	      FLAGS_tail_latency = true;
+-+	      LoadTrace(trace_name);
+-+	      method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_mix")) {
+-+	      std::string trace_name = "/home2/du/RocksDB_Inc/trace_mix";
+-+	      FLAGS_ycsb = true;
+-+	      FLAGS_tail_latency = true;
+-+	      LoadTrace(trace_name);
+-+	      method = &Benchmark::RunTrace;
+-+
+-+      } else if (name == Slice("trace_a_u")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_A_U";
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_b_u")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_B_U";
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_c_u")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_C_U";
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_d_u")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_D_U";
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_e_u")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_E_U";
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-+      } else if (name == Slice("trace_f_u")) {
+-+        std::string trace_name = "/home2/du/RocksDB_Inc/trace_F_U";
+-+        FLAGS_ycsb = true;
+-+        FLAGS_tail_latency = true;
+-+        LoadTrace(trace_name);
+-+        method = &Benchmark::RunTrace;
+-       } else if (name == "fillrandom") {
+-         fresh_db = true;
+-         method = &Benchmark::WriteRandom;
+-@@ -3555,6 +3992,7 @@ class Benchmark {
+-         PrintStats("rocksdb.block-cache-entry-stats");
+-       } else if (name == "stats") {
+-         PrintStats("rocksdb.stats");
+-+        ResetStats();
+-       } else if (name == "resetstats") {
+-         ResetStats();
+-       } else if (name == "verify") {
+-@@ -3883,6 +4321,7 @@ class Benchmark {
+-       merge_stats.Merge(arg[i].thread->stats);
+-     }
+-     merge_stats.Report(name);
+-+    
+- 
+-     for (int i = 0; i < n; i++) {
+-       delete arg[i].thread;
+-@@ -6773,6 +7212,118 @@ class Benchmark {
+-   }
+- 
+-   void DeleteSeq(ThreadState* thread) { DoDelete(thread, true); }
+-+ 
+-+  long fill_done_cnt = 0;
+-+  std::unique_ptr<RateLimiter> du_rate_limiter;
+-+  void RunTrace(ThreadState* thread) {
+-+    RandomGenerator gen;
+-+    ReadOptions read_operations;
+-+    Duration duration(1000, 0); 
+-+    DB* db = SelectDB(thread);
+-+
+-+    long key_done = 0;
+-+    for (auto& operation : ycsb_trace) {
+-+      if (operation.operation_type != 'i')
+-+      {
+-+        if (duration.Done(1, key_done, thread->tid)) break;
+-+        key_done ++;
+-+      }
+-+      else
+-+      {
+-+          duration.Done(1, key_done, thread->tid);
+-+          key_done ++;
+-+      }
+-+      int new_value_size = FLAGS_value_size; 
+-+      
+-+      // 8 4 2
+-+      // 64 1024 4096
+-+      if (operation.key % 16 < 8)
+-+      {
+-+          new_value_size = 64; 
+-+      }
+-+      else if (operation.key % 16 < 12)
+-+      {
+-+          new_value_size = 1024;
+-+      }
+-+      else
+-+      {
+-+          new_value_size = 8192;
+-+      }
+-+
+-+      Status s;
+-+      //printf("%c %lld %lld\n", operation.operation_type, operation.key, operation.length);
+-+      if (operation.operation_type == 'i') {
+-+        char key[100];
+-+        snprintf(key, sizeof(key), "%016lu", operation.key);
+-+        //snprintf(key, sizeof(key), "%020lu", operation.key);
+-+#if (0)
+-+		KV_Req kv_req;
+-+		if (kv_req.put_classify(0, key, gen.Generate(new_value_size), true))
+-+		{
+-+		}
+-+		else
+-+#else
+-+			s = db->Put(write_options_, key, gen.Generate(new_value_size));
+-+#endif	
+-+        thread->stats.FinishedOps(nullptr, db, 1, kWrite);
+-+        //thread->stats.push_wr(thread->stats.LastOperationMicros());
+-+        if (fill_done_cnt % 1000000 == 0) 
+-+        {
+-+            printf("Fill done %ld\n", fill_done_cnt);
+-+            fflush(stdout);
+-+        }
+-+        fill_done_cnt ++;
+-+        //ycsb_histogram_.at("insert").Add(thread->stats.LastOperationMicros());
+-+      } else if (operation.operation_type == 'r') {
+-+        char key[100];
+-+        snprintf(key, sizeof(key), "%016lu", operation.key);
+-+        //snprintf(key, sizeof(key), "%020lu", operation.key);
+-+        std::string value;
+-+        s = db->Get(read_operations, key, &value);
+-+        thread->stats.FinishedOps(nullptr, db, 1, kRead);
+-+        //thread->stats.push_rd(thread->stats.LastOperationMicros());
+-+    //ycsb_histogram_.at("read").Add(thread->stats.LastOperationMicros());
+-+      } else if (operation.operation_type == 'u') {
+-+        char key[100];
+-+        snprintf(key, sizeof(key), "%016lu", operation.key);
+-+        //snprintf(key, sizeof(key), "%020lu", operation.key);
+-+        s = db->Put(write_options_, key, gen.Generate(new_value_size));
+-+        thread->stats.FinishedOps(nullptr, db, 1, kWrite);
+-+        //thread->stats.push_wr(thread->stats.LastOperationMicros());
+-+        //ycsb_histogram_.at("update").Add(thread->stats.LastOperationMicros());
+-+        /*
+-+        if (FLAGS_benchmark_write_rate_limit > 0) {
+-+            du_rate_limiter->Request(
+-+                    entries_per_batch_ * (value_size_ + key_size_), Env::IO_HIGH,
+-+                    nullptr , RateLimiter::OpType::kWrite);
+-+        }
+-+        */
+-+      } else if (operation.operation_type == 's') {
+-+        char key[100];
+-+        snprintf(key, sizeof(key), "%016lu", operation.key);
+-+        //snprintf(key, sizeof(key), "%020lu", operation.key);
+-+        int i = 0;
+-+        //double start_time = clock->NowMicros();
+-+        Iterator* it = db->NewIterator(read_operations);
+-+        for (it->Seek(key); it->Valid() && i < (int)operation.length; it->Next()) {
+-+          i++;
+-+          thread->stats.FinishedOps(nullptr, db, 1, kSeek);
+-+        }
+-+        delete it;
+-+
+-+        //double end_time = clock->NowMicros();
+-+        //thread->stats.push_scan(end_time - start_time);
+-+      }
+-+      if (!s.ok()) {
+-+        //fprintf(stderr, "Error: %s\n", s.ToString().c_str());
+-+        //exit(1);
+-+      }
+-+    }
+-+
+-+    // Test Version 
+-+  }
+-+
+-+
+- 
+-   void DeleteRandom(ThreadState* thread) { DoDelete(thread, false); }
+- 
+diff --git a/rocksdb/db/compaction/compaction_job.cc b/rocksdb/db/compaction/compaction_job.cc
+index 1641ba4..22f5622 100644
+--- a/rocksdb/db/compaction/compaction_job.cc
++++ b/rocksdb/db/compaction/compaction_job.cc
+@@ -1068,16 +1068,15 @@ int CompactionJob::CheckKVAsync (volatile int * complete_status, int tail, int h
+             uint64_t mid_micros = (uint64_t) db_options_.clock->NowMicros();
+             if ((mid_micros - start_micros) > 1000) {
+                 start_micros = (uint64_t) db_options_.clock->NowMicros();
+-                sleep(1);
+                 printf("%s Why Wait To much Time \n", __func__);
+             }
+         // Success 
+         } else if (complete_status[head_l] == 1) {
+             complete_status[head_l] = 0;
+             if (!last) {
+-                return (head_l + 1) % 64;
++                return (head_l + 1) % 1024;
+             }
+-            head_l = (head_l + 1) % 64;
++            head_l = (head_l + 1) % 1024;
+         // Idle Case not submitted yet (may be error)
+         } else {
+         
+@@ -1377,12 +1376,14 @@ void CompactionJob::ProcessKeyValueCompaction(SubcompactionState* sub_compact) {
+       }
+   }
+ 
++  int prev_compare = 0;
++  long prev_index = 0; 
+   int async_tail = 0;
+   int async_head = 0;
+   volatile int * complete_status = nullptr;
+   if (dump_to_kvssd) { 
+-      complete_status = (int *) malloc(sizeof(int) * 64); 
+-      memset((void *) complete_status, 0, sizeof(int) * 64);
++      complete_status = (int *) malloc(sizeof(int) * 1024); 
++      memset((void *) complete_status, 0, sizeof(int) * 1024);
+   }
+   
+   uint64_t compaction_start = (uint64_t) db_options_.clock->NowMicros();
+@@ -1426,43 +1427,31 @@ void CompactionJob::ProcessKeyValueCompaction(SubcompactionState* sub_compact) {
+             if (req_cnt && ret_tail) {}
+             bool kv_write = false;
+             if (compare_value < test_qwer_value) {
+-                if (kv_ssd_enable_ == 5) {
+-                    memset(compare_key, 0, 17);
+-                    memcpy(compare_key, du_key, 16);
+-                    size_t du_key_size = 17;
+-                    char * du_value = (char *) c_iter->value().data(); 
+-                    size_t du_value_size = c_iter->value().size();
+-
+-                    // Insert Index
+-                    uint64_t index_start = (uint64_t) db_options_.clock->NowMicros();
+-                    kv_comp_->keyInsert(ret_tail, compare_key, 16, du_value, du_value_size, 0); // sequence set to  0
+-                    uint64_t index_end = (uint64_t) db_options_.clock->NowMicros();
+-
+-                    uint64_t async_start = (uint64_t) db_options_.clock->NowMicros();
+-                    if (async_head && async_tail && du_key_size) {}
+-                    //async_head = CheckKVAsync(complete_status, async_tail, async_head, false);
+-                    uint64_t async_end = (uint64_t) db_options_.clock->NowMicros();
+-
+-                    // Write to SSD 
+-                    uint64_t write_start = (uint64_t) db_options_.clock->NowMicros();
+-                    //kv_ssd_->kv_put_buffer_async(compare_key, du_key_size, du_value, du_value_size, &complete_status[async_tail]);
+-                    async_tail = (async_tail + 1) % 64;      
+-                    kv_write = true;
+-                    uint64_t write_end = (uint64_t) db_options_.clock->NowMicros();
+-                    RecordTimeToHistogram(stats_, KV_COMPACTION_INDEX, index_end - index_start);
+-                    RecordTimeToHistogram(stats_, KV_COMPACTION_ASYNC, async_end - async_start);
+-                    RecordTimeToHistogram(stats_, KV_COMPACTION_WRITE, write_end - write_start);
+-
++                memset(compare_key, 0, 17);
++                memcpy(compare_key, du_key, 16);
++                size_t du_key_size = 17;
++                char * du_value = (char *) c_iter->value().data(); 
++                size_t du_value_size = c_iter->value().size();
++
++                if (kv_comp_opt_ == 2) {
++                    //kv_comp_->EnQueue(ret_tail, compare_key, du_value, du_value_size); 
+                 } else {
+-                    memset(compare_key, 0, 17);
+-                    memcpy(compare_key, du_key, 16);
+-                    size_t du_key_size = 17;
+-                    char * du_value = (char *) c_iter->value().data(); 
+-                    size_t du_value_size = c_iter->value().size();
+-
+                     // Insert Index
+                     uint64_t index_start = (uint64_t) db_options_.clock->NowMicros();
+-                    kv_comp_->keyInsert(ret_tail, compare_key, 16, du_value, du_value_size, 0, 0); // sequence set to  0
++                    if (kv_comp_opt_ == 0) {
++                        kv_comp_->keyInsert(ret_tail, compare_key, 16, du_value, du_value_size, 0, 0); // sequence set to  0
++                    } else if (kv_comp_opt_ == 1) {
++                        if (compare_value != prev_compare) { // if changed... shard is changed so prev index is set to 0 
++                            prev_index = 0;
++                        }
++                        if (prev_index) {}
++                        prev_index = kv_comp_->keyInsert(ret_tail, compare_key, 16, du_value, du_value_size, 0, prev_index); 
++                        prev_compare = compare_value;
++                    } else {
++                        if (rand() % 10000 == 0) {
++                            printf("May be Error...!! %s compaction opt option\n", __func__);
++                        }
++                    }
+                     uint64_t index_end = (uint64_t) db_options_.clock->NowMicros();
+ 
+                     uint64_t async_start = (uint64_t) db_options_.clock->NowMicros();
+@@ -1475,36 +1464,24 @@ void CompactionJob::ProcessKeyValueCompaction(SubcompactionState* sub_compact) {
+                     if (complete_status[async_tail] != 0) {
+                         printf("error tail %d re %d\n", async_tail, complete_status[async_tail]);
+                     }
+-                    complete_status[async_tail] = 2;
+-                    // kv_ssd_->kv_put_buffer_async(compare_key, du_key_size, du_value, du_value_size, nullptr);
+-                    kv_ssd_->kv_put_buffer_async(compare_key, du_key_size, du_value, du_value_size, &complete_status[async_tail]);
+-                    async_tail = (async_tail + 1) % 64;      
+-                    kv_write = true;
+-                    uint64_t write_end = (uint64_t) db_options_.clock->NowMicros();
++                    complete_status[async_tail] = 0;
++                    kv_ssd_->kv_put_buffer_async(compare_key, du_key_size, du_value, du_value_size, nullptr);
++                    //kv_ssd_->kv_put_buffer_async(compare_key, du_key_size, du_value, du_value_size, &complete_status[async_tail]);
++                    async_tail = (async_tail + 1) % 1024;
+                     RecordTimeToHistogram(stats_, KV_COMPACTION_INDEX, index_end - index_start);
+                     RecordTimeToHistogram(stats_, KV_COMPACTION_ASYNC, async_end - async_start);
++                    uint64_t write_end = (uint64_t) db_options_.clock->NowMicros();
+                     RecordTimeToHistogram(stats_, KV_COMPACTION_WRITE, write_end - write_start);
+-
+                 }
++                kv_write = true;
++                
+             } else {
+-                printf("AM I Make Bug???????????????????\n");
+-                printf("AM I Make Bug???????????????????\n");
+-                printf("AM I Make Bug???????????????????\n");
+-                fflush(stdout);
+                 std::cout << "Compaction Done KV Finish operation is here !!!!  " << kv_write << " finish? " << finish << " Key " << du_key <<  " compare value " << compare_value << " target value " << test_qwer_value<< " Level " << compact_->compaction->output_level() << std::endl;
+-                fflush(stdout);
+-
+                 status = sub_compact->AddToOutput(*c_iter, open_file_func, close_file_func);
+                 if (!status.ok()) {
+                     break;
+                 }
+                 finish = true;
+-                printf("NNNNNNNNNNNNNnn???????????????????\n");
+-                printf("NNNNNNNNNNNNNnn???????????????????\n");
+-                printf("NNNNNNNNNNNNNnn???????????????????\n");
+-                printf("NNNNNNNNNNNNNnn???????????????????\n");
+-                printf("NNNNNNNNNNNNNnn???????????????????\n");
+-                fflush(stdout);
+             }
+         }
+     } else {
+@@ -1549,7 +1526,7 @@ void CompactionJob::ProcessKeyValueCompaction(SubcompactionState* sub_compact) {
+     kv_comp_->sulFlush(0, 0, 3);  // last is level !!!!!!! TODO 
+ 
+     kv_comp_->compDone(ret_tail ,16);
+-    for (int i = 0 ; i < 64 ; i ++) {
++    for (int i = 0 ; i < 1024 ; i ++) {
+         printf("\t\t Check DU %d result %d\n", i, complete_status[i]);
+     }
+     printf("Success dump to kvssd\n");
+diff --git a/rocksdb/db/kvssd/kv_ssd.cc b/rocksdb/db/kvssd/kv_ssd.cc
+index 3f2b379..6c922ac 100644
+--- a/rocksdb/db/kvssd/kv_ssd.cc
++++ b/rocksdb/db/kvssd/kv_ssd.cc
+@@ -46,6 +46,7 @@ bool compaction_algo_enable = true;
+ int threshold_algo_value = 2;
+ 
+ namespace ROCKSDB_NAMESPACE {
++#define MAX_POP (64)
+ class KV_SSD;
+ class KVIndex;
+ class KVComp;
+@@ -1070,8 +1071,9 @@ void KVIndex::getCapacity(long long * key_count, long long * capacity) {
+ // WAL + L0: 
+ // Compaction: 20 B Key size : SUL :
+ // return current pointer ! 
+-long KVIndex::keyInsert(char * key, size_t key_size, int seq, size_t value_size, long prev_index) {
++long KVIndex::keyInsert(char * key, size_t key_size, int seq, size_t value_size, long prev_index, int * ul_value) {
+     if (prev_index) {} 
++    if (ul_value) {}
+     if (key_size == 0) {// TODO
+     }
+     if (value_size == 0) { // only for capacity calculation
+@@ -1106,9 +1108,9 @@ long KVIndex::keyInsert(char * key, size_t key_size, int seq, size_t value_size,
+     bool find = false;
+ 
+     ll * ll_local = (ll *) (sll_local->buffer_ + sll_local->key_count_);
+-    ll * ll_prev;
++    ll * ll_prev = nullptr;
+     if (prev_index == 0) {
+-        ll * ll_prev = llSearch(sllGetHead(sll_local), key_num, &find, false);
++        ll_prev = llSearch(sllGetHead(sll_local), key_num, &find, false);
+     } else {
+         ll_prev = llLocate(sll_local, prev_index);
+     }
+@@ -1160,7 +1162,7 @@ long KVIndex::keyInsert(char * key, size_t key_size, int seq, size_t value_size,
+     }
+     ulPush(index, seq);
+     sll_local->slot_lock_.unlock();
+-    ret_index = (long) (sllGetHead(sll_local) - ll_local);
++    ret_index = (long) (ll_local - sllGetHead(sll_local) );
+     return ret_index; 
+     //return true; 
+ }
+@@ -1402,14 +1404,13 @@ void KVIndex::sulDelete(int seq_start, int seq_end) {
+     sul * tmp = update_head_;
+     sul * del_sul = tmp;
+     while (tmp != nullptr) {
+-        // TODO
+-#if (1)
+         if (tmp != update_tail_) {
+             printf("%s deleteSUL pointer %p seq %d - %d \n", __func__, tmp, tmp->seq_start_, tmp->seq_end_);
+             del_sul = tmp;
+-            free(del_sul->buffer_);
+-            free(del_sul); 
+             tmp = tmp->next_;
++            //free(del_sul->buffer_);
++            ulClear(del_sul->buffer_);
++            free(del_sul); 
+             if (tmp == nullptr) {
+                 update_head_ = update_tail_;
+             } else {
+@@ -1418,19 +1419,6 @@ void KVIndex::sulDelete(int seq_start, int seq_end) {
+         } else {
+             break;
+         }
+-#else
+-        if (tmp->seq_start_ < seq_end) {
+-            printf("%s delete seq %d - %d\n", __func__, del_sul->seq_start_, del_sul->seq_end_);
+-            free(del_sul); 
+-            del_sul = tmp;
+-            tmp = tmp->next_;
+-        } else {
+-            update_head_ = tmp; 
+-            if (tmp->next_ == nullptr) {
+-                update_tail_ = tmp; 
+-            }
+-        }
+-#endif
+     }
+ }
+ 
+@@ -1609,6 +1597,8 @@ void KVIndex::sllPrintMeta(sll * sll_in) {
+ 
+ // sll :: Upper Key -> point ll ( sll[0], sll[1] hash )
+ // ll  :: key -> key -> key ... ( lower key )
++void KVIndex::sulFlushSingle() {
++}
+ 
+ void KVIndex::sulFlush(int seq_start, int seq_end, std::vector<char *> &input_buf, std::vector<char *> &input_key) {
+     sul_mutex_.lock();
+@@ -1688,61 +1678,6 @@ void KVIndex::sulFlush(int seq_start, int seq_end, std::vector<char *> &input_bu
+     */
+ }
+ 
+-// Variable Lists 
+-// thread t1
+-// bg_running_
+-#if (0) 
+-void KVIndex::CreateBGWorker() {
+-    thread t1(BGWork);
+-    bg_running_ = true;
+-}
+-
+-void KVIndex::DeleteBGWorker() {
+-}
+-
+-/*
+-void KVIndex::ResumeWorker() {
+-    if (bg_paused_.exchange(false)) {
+-        bg_paused_ = true;
+-    }
+-}
+-
+-void KVIndex::PauseWorker() {
+-    bg_paused_ = true;
+-}
+-*/
+-
+-void KVIndex::BGWork() {
+-    while (bg_running_) {
+-        struct BUL my_bul;
+-        if (bul_.try_pop (my_bul)) {
+-            // bool KVIndex::keyInsert(char * key, size_t key_size, int seq, size_t value_size) 
+-            keyInsert(my_bul.a, 16, my_bul.sequence, my_bul.value_size);
+-        } else {
+-            // Empty Case
+-        }
+-    }
+-}
+-
+-void KVIndex::PushBGQueue(char * array, int sequence, size_t value_size) {
+-    struct BUL my_bul;
+-    memcpy(my_bul.a, array, 16); 
+-    my_bul.seqeunce_ = sequence;
+-    my_bul.value_size_ = value_size;
+-    bul_.push(my_bul);
+-}
+-#endif
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+ 
+ /*
+ KVCompaction::KVCompaction(KV_SSD * kv_ssd) {
+@@ -1834,6 +1769,14 @@ KVComp::KVComp(KV_SSD * kv_ssd) {
+ 
+     max_compaction_ = 64;
+     enable_ = false;
++
++    if (kv_comp_opt_ == 2) {
++        std::thread(&KVComp::CompDequeue, this);
++        wait_list_ = new rigtorp::MPMCQueue<compE>(4096);
++        bg_running_ = true;
++    } else {
++        bg_running_ = false;
++    }
+ }
+ 
+ KVComp::~KVComp() {
+@@ -1850,6 +1793,7 @@ KVComp::~KVComp() {
+     printf (" ********************* %s *************** \n", __func__);
+     printf (" ********************* %s *************** \n", __func__);
+     //del comp_index_
++    bg_running_ = false;
+ }
+ 
+ KVIndex * KVComp::getKVIndex() {
+@@ -1945,35 +1889,20 @@ int KVComp::compPrepare(int level, char * smallest, char * largest, size_t key_s
+         level << "\t" <<
+         smallest << "\t" <<
+         largest << std::endl;
+-    allocateIndexP(false, smallest, largest, level);
++    //allocateIndexP(false, smallest, largest, level);
+     tail_ = (tail_ + 1) % 64;
+-    level_ = level;
++    
+     compact_stat_[ret_tail].progress_ = true;
+-    compact_stat_[ret_tail].level_ = level;
+-    memcpy(compact_stat_[ret_tail].smallest_, smallest, key_size);
+-    memcpy(compact_stat_[ret_tail].largest_, largest, key_size);
+-    /*
+-    if (compact_stat_[ret_tail].buffer_ == nullptr) {
+-        compact_stat_[ret_tail].buffer_ = malloc(8192); // 8K
+-    }
+-    */
++    compact_stat_[ret_tail].enqueue_count_ = 0;
++    compact_stat_[ret_tail].dequeue_count_ = 0;
++    compact_stat_[ret_tail].status_ = 0;
++
+     comp_mutex_.unlock();
+ 
+ #endif
+     if (smallest) {}
+     if (largest) {}
+     if (key_size) {}
+-    /*
+-    if (checkRange(smallest, largest, key_size) == true) {
+-        setRange(smallest, largest); 
+-        // allocate index
+-        
+-    } else {
+-        return false;
+-    }
+-
+-    //comp_index_-> () ;
+-    */
+     return ret_tail;
+ }
+ 
+@@ -1982,11 +1911,15 @@ bool KVComp::compDone(int tail, size_t key_size) {
+     comp_mutex_.lock();
+     printf("Fucking CompactionDone Here tail %d\n", tail); 
+     fflush(stdout);
++    if (key_size) {}
+     if (compact_stat_[tail].progress_) {
+         compact_stat_[tail].progress_ = false;
+-        compact_stat_[tail].level_ = -1;
+-        memset(compact_stat_[tail].smallest_, 0, key_size);
+-        memset(compact_stat_[tail].largest_, 0, key_size);
++#if (1)
++        if (kv_comp_opt_ == 2) {
++            while (compact_stat_[tail].enqueue_count_ != compact_stat_[tail].dequeue_count_) {
++            }
++        }
++#endif 
+     } else {
+         printf("why compaction does not prepared...but done\n");
+         fflush(stdout);
+@@ -1994,13 +1927,12 @@ bool KVComp::compDone(int tail, size_t key_size) {
+             printf(" I am Hanging\n");
+             sleep(1); 
+         }
+-        //assert(false);
+     }
+     std::cout << __func__ << "\t" <<
+         tail << "\t" <<
+-        compact_stat_[tail].level_ << "\t" <<
+-        compact_stat_[tail].smallest_ << "\t" <<
+-        compact_stat_[tail].largest_ << "\t" <<
++        compact_stat_[tail].enqueue_count_ << "\t" <<
++        compact_stat_[tail].dequeue_count_ << "\t" <<
++        compact_stat_[tail].status_ << "\t" <<
+         compact_stat_[tail].progress_ << std::endl;
+     comp_mutex_.unlock();
+     comp_index_->ulPrintAll(); 
+@@ -2040,6 +1972,7 @@ void KVComp::sulFlush(int seq_start, int seq_end, int level) {
+         }
+         if (ret) break;
+     }
++    comp_index_->sulDelete(0,1);
+     uint64_t end_micro = micros();  
+     printf("KVComp::Compaction Sul Flush is Done in %lld\n", (long long int) (end_micro - start_micro));
+ }
+@@ -2069,6 +2002,79 @@ void KVComp::allocateIndexP(bool is_l0, char * smallest, char * largest, int lev
+     allocateIndex(is_l0, smallest_in, largest_in, level);
+ }
+ 
++#if (1)
++void KVComp::CompEnqueue(int index, char * key, char * value, size_t value_size) {
++    compact_stat_[index].enqueue_count_ ++;
++
++    compE item;
++    item.index_ = index;
++    item.value_ = (char *) malloc(value_size);
++    memcpy((void *) item.value_, value, value_size);
++    memcpy((void *) item.key_, key, 17);
++    item.value_size_ = value_size;
++    item.status_ = 0;
++    wait_list_->push(item);
++}
++
++void KVComp::CompDequeue() {
++    int tail = 0;
++    int head = 0;
++    compE item[MAX_POP];
++    while (bg_running_) { 
++        if ((tail + 1) % MAX_POP != head) {
++            bool found = wait_list_->try_pop(item[tail]);
++            if (found) {
++                item[tail].status_ = 2;
++                kv_ssd_->kv_put_buffer_async(item[tail].key_, 17, item[tail].value_, item[tail].value_size_, &item[tail].status_);
++              
++
++                int index = item[head].index_; 
++                int compare_value = item[head].compare_value_;
++                int prev_value = compact_stat_[index].compare_value_;
++                long prev_index = compact_stat_[index].prev_index_;
++                if (compare_value != prev_value) {
++                    prev_index = 0;
++                }
++                // value is usused...= nullptr
++                prev_index = keyInsert(index, item[tail].key_, 16, nullptr, item[tail].value_size_, 0, prev_index); // sequence set to  0
++                compact_stat_[index].prev_index_ = prev_index;
++                tail = (tail + 1) % MAX_POP;
++            } else {
++
++            }
++        } else {
++            // Queue is full..wtf...
++        }
++
++        while (item[head].status_ == 1) {
++            item[head].status_ = 0;
++            free (item[head].value_);
++            head = (head + 1) % MAX_POP;
++            
++            int index = item[head].index_;
++            compact_stat_[index].dequeue_count_ ++;
++        }
++    }
++}
++#endif
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
+ #if (1)
+ 
+ WorkerQueue::WorkerQueue() {
+@@ -2087,7 +2093,6 @@ WorkerQueue::~WorkerQueue() {
+     bg_running_ = false; 
+ }
+ 
+-#define MAX_POP (64)
+ bool WorkerQueue::kvEnqueue (char * key, size_t key_size, int seq, char * value, size_t value_size) {
+     if (value) {}
+     if (key) {}
+diff --git a/rocksdb/db/kvssd/kv_ssd.h b/rocksdb/db/kvssd/kv_ssd.h
+index 83956fc..8234cb9 100644
+--- a/rocksdb/db/kvssd/kv_ssd.h
++++ b/rocksdb/db/kvssd/kv_ssd.h
+@@ -310,19 +310,27 @@ class KVIndex {
+     public:
+ 		KVIndex();
+ 		~KVIndex();
+-        long keyInsert(char * key, size_t key_size, int seq, size_t value_size, long prev_index = 0);
++        long keyInsert(char * key, size_t key_size, int seq, size_t value_size, long prev_index = 0, int * ul_value = nullptr);
+         bool keyDelete(char * key, size_t key_size);
+         bool keyFind(char * key, size_t key_size);
+         sll * hashGet() { return hash_; }
+         char * hashBufferGet(int hash_index) { return (char *) hash_[hash_index].buffer_; }  
+ 
+ 
++        char * llBufferGet(char * key) {
++            int index = (int) CharToShort(key, 0, UPPER_CHAR);
++            sll * sll_local = &hash_[index];
++            char * ret = (char *) sllGetHead(sll_local);
++            return ret;
++        }
++
+         void sllPrint(sll * sll_in);
+         void sllPrintAll();
+         
+         // UL Functions !!!!
+         void sulCreate(int seq_start);
+         void sulDelete(int seq_start, int seq_end);
++        void sulBufferGet();
+         void sulPrint();
+         
+         void ulPush(int value, int seq);
+@@ -331,6 +339,7 @@ class KVIndex {
+         void ulPrintAll();
+         
+         // KVIndex Region But...only exist in here (kvssd.h)
++        void sulFlushSingle();
+         void sulFlush(int seq_start, int seq_end, std::vector<char *> &input_buf, std::vector<char*> &input_key);
+ 
+         void getCapacity(long long * key_count, long long * capacity);
+@@ -462,12 +471,25 @@ class KVComp {
+ 
+     struct compaction_stat {
+         bool progress_;
+-        int level_;
+-        char smallest_[17];
+-        char largest_[17]; // TODO key size can not be changed !!!!!!
+-        void * buffer_;
++      
++        long prev_index_;
++        int compare_value_;
++        int enqueue_count_;
++        int dequeue_count_;
++        int status_;
++        char * buffer_; // may be ll buffer
+     };
+ 
++    struct COMPElement {
++        int index_;
++        int compare_value_;
++        char key_[17];
++        char * value_;
++        size_t value_size_;
++        int status_;
++    };
++
++    typedef struct COMPElement compE;
+     public:
+         KVComp(KV_SSD * kv_ssd); 
+         ~KVComp();
+@@ -492,10 +514,13 @@ class KVComp {
+ 
+         void ulPrint();
+         void sulFlush(int seq_start, int seq_end, int level);
+-
++        void CompEnqueue(int index, char * key, char * value, size_t value_size);
++        void CompDequeue();
+     private:
+         KVIndex * comp_index_;
+         KV_SSD * comp_ssd_;
++        
++        rigtorp::MPMCQueue<compE> * wait_list_; 
+        
+         bool enable_;
+         int level_;
+@@ -506,7 +531,8 @@ class KVComp {
+         int largest_;
+ 
+         int max_compaction_;
+-        std::mutex comp_mutex_; 
++        std::mutex comp_mutex_;
++        bool bg_running_;
+ };
+ 
+ 
+diff --git a/script/temp.sh b/script/temp.sh
+index 7aef0f7..2c2f739 100755
+--- a/script/temp.sh
++++ b/script/temp.sh
+@@ -1,7 +1,8 @@
+ #!/bin/bash
+ ./qwer.sh
+ 
+-cgexec -g cpuset,memory:durocks /home2/du/KV_NVMe/rocksdb/db_bench --db=../mnt/db --num_levels=6 --bloom_locality=1 --bloom_bits=10 --memtablerep=skip_list --prefix_size=8 --key_size=8 --keys_per_prefix=0 --wal_dir=../mnt/wal --threads=8 --benchmarks=trace_fill,stats,resetstats,trace_warm,stats,resetstats,trace_rw,stats,resetstats --num=1 --compression_type=none --max_bytes_for_level_base=268435456 --open_files=100 --benchmark_write_rate_limit=40971520 --max_background_jobs=4 --YCSB_uniform_distribution=false --disable_wal=0 --histogram=true --max_write_buffer_number=2 --write_buffer_size=67108864 --inplace_update_support=false --allow_concurrent_memtable_write=true --statistics=true --stats_interval_seconds=10 --max_bytes_for_level_multiplier=8 --kv_ssd_enable=4 --kv_ssd_key_range=146800640 --kv_ssd_max_value=66536 --kv_ssd_zipf_dist=0.99 --kv_ssd_value_change=true --kv_ssd_value_small=16 --kv_ssd_value_medium=4 --kv_ssd_value_large=1 --kv_ssd_count=1 
++# Now for test...cgroup disable
++cgexec -g cpuset,memory:durocks /home2/du/work/KV_NVMe/rocksdb/db_bench --db=/home2/du/KV_NVMe/mnt/db --num_levels=6 --bloom_locality=1 --bloom_bits=10 --memtablerep=skip_list --prefix_size=8 --key_size=8 --keys_per_prefix=0 --wal_dir=/home2/du/KV_NVMe/mnt/wal --threads=8 --benchmarks=trace_fill,stats,resetstats,trace_warm,stats,resetstats,trace_rw,stats,resetstats --num=1 --compression_type=none --max_bytes_for_level_base=268435456 --open_files=100 --benchmark_write_rate_limit=40971520 --max_background_jobs=4 --YCSB_uniform_distribution=false --disable_wal=0 --histogram=true --max_write_buffer_number=2 --write_buffer_size=67108864 --inplace_update_support=false --allow_concurrent_memtable_write=true --statistics=true --stats_interval_seconds=10 --max_bytes_for_level_multiplier=8 --kv_ssd_enable=4 --kv_ssd_key_range=146800640 --kv_ssd_max_value=66536 --kv_ssd_zipf_dist=0.99 --kv_ssd_value_change=true --kv_ssd_value_small=16 --kv_ssd_value_medium=4 --kv_ssd_value_large=1 --kv_ssd_count=1 --kv_comp_opt=1 
+ 
+ #gdb -args cgexec -g cpuset,memory:durocks ../rocksdb/db_bench --db=../mnt/db --num_levels=6 --bloom_locality=1 --bloom_bits=10 --memtablerep=skip_list --prefix_size=8 --key_size=8 --keys_per_prefix=0 --wal_dir=../mnt/wal --threads=8 --benchmarks=trace_fill,stats,resetstats,trace_warm,stats,resetstats,trace_a,stats,resetstats,trace_f,stats,resetstats --num=1 --compression_type=none --max_bytes_for_level_base=268435456 --open_files=100 --benchmark_write_rate_limit=40971520 --max_background_jobs=4 --YCSB_uniform_distribution=false --disable_wal=0 --histogram=true --max_write_buffer_number=2 --write_buffer_size=67108864 --inplace_update_support=false --allow_concurrent_memtable_write=true --statistics=true --stats_interval_seconds=10 --max_bytes_for_level_multiplier=8 --kv_ssd_enable=3 --kv_ssd_key_range=44680064 --kv_ssd_max_value=66536 --kv_ssd_zipf_dist=0.99 --kv_ssd_value_change=true --kv_ssd_value_small=16 --kv_ssd_value_medium=4 --kv_ssd_value_large=1
+ 
